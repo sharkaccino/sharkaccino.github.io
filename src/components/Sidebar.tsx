@@ -47,7 +47,7 @@ const flavorTextStringList = [
   `ouch`,
   `omg hiii!!!!!!`,
   `buals`,
-  `jackiedotjs`,
+  `sharkaccino (real)`,
   `lead poisoning enthusiast`,
   `now with 50% more lead!`,
   `mmmmmmmmmmm`,
@@ -263,7 +263,7 @@ const Sidebar: Component = () => {
           <a href="/">
             <img src="/assets/favicon.svg" />
           </a>
-          <h1>jackiedotjs</h1>
+          <h1>sharkaccino</h1>
           <a 
             onclick={pickFlavorText} 
             href="javascript:void(0)" 
@@ -283,14 +283,14 @@ const Sidebar: Component = () => {
 
         <footer>
           <div>
-            <span>copyright &copy; 2025 jackiedotjs</span>
+            <span>copyright &copy; 2025 sharkaccino</span>
             <span>all rights reserved</span>
           </div>
           <span>
             last updated: <b><time datetime={buildDateISO()}>{buildDate()}</time></b> ({buildDateRelative()})
           </span>
           <span>
-            rev: <b><a href={`https://github.com/JackDotJS/JackDotJS.github.io/commit/${revHash()}`}>{revHash()}</a></b>
+            rev: <b><a href={`https://github.com/sharkaccino/sharkaccino.github.io/commit/${revHash()}`}>{revHash()}</a></b>
           </span>
         </footer>
       </div>
