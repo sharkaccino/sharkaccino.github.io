@@ -15,32 +15,32 @@ const Home: Component = () => {
   const socialLinks = [
     {
       title: `bluesky`,
-      url: `https://bsky.app/profile/jackdotjs.bsky.social`,
+      url: `https://bsky.app/profile/sharkaccino.bsky.social`,
       style: styles.bluesky
     },
     {
       title: `github`,
-      url: `https://github.com/JackDotJS`,
+      url: `https://github.com/sharkaccino`,
       style: styles.github
     },
     {
       title: `discord`,
-      text: `@jackdotjs`,
+      text: `@sharkaccino`,
       style: styles.discord
     },
     {
       title: `steam`,
-      url: `https://steamcommunity.com/id/JackDotJS/`,
+      url: `https://steamcommunity.com/id/sharkaccino/`,
       style: styles.steam
     },
     {
       title: `youtube`,
-      url: `https://www.youtube.com/@JackDotJS`,
+      url: `https://www.youtube.com/@sharkaccino`,
       style: styles.youtube
     },
     {
       title: `ko-fi`,
-      url: `https://ko-fi.com/jackdotjs`,
+      url: `https://ko-fi.com/sharkaccino`,
       style: styles.kofi
     },
   ]
