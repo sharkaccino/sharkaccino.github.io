@@ -12,7 +12,7 @@ const Specs: Component = () => {
     <main>
       <h2>pc specs</h2>
       <ul class={styles.specList}>
-        <li><em>os:</em> Fedora Linux 42 (KDE Plasma 6, Wayland)</li>
+        <li><em>os:</em> Debian Linux 13 (KDE Plasma 6, Wayland)</li>
         <li><em>cpu:</em> AMD Ryzen 7 7700X</li>
         <li><em>gpu:</em> Sapphire PULSE Radeon RX 7900 XTX</li>
         <li><em>ram:</em> G.Skill Trident Z, 2x16GB DDR5 CL30</li>
@@ -23,7 +23,7 @@ const Specs: Component = () => {
       <ul class={styles.specList}>
         <li><em>display:</em> ViewSonic VP3481, 3440x1440 @ 100 Hz</li>
         <li><em>keyboard:</em> Keychron V3 w/ K Pro Mint Switches</li>
-        <li><em>mouse:</em> MCHOSE G3 Ultra @ 1000 DPI</li>
+        <li><em>mouse:</em> Keychron M3 Mini 4K Metal Edition @ 1000 DPI</li>
         <li><em>gamepad:</em> PlayStation DualSense Wireless</li>
         <li><em>microphone:</em> Razer Seiren Mini</li>
         <li><em>headphones:</em> Bose QuietComfort 35 II</li>
