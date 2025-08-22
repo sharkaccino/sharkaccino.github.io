@@ -15,7 +15,7 @@ const Home: Component = () => {
   const socialLinks = [
     {
       title: `bluesky`,
-      url: `https://bsky.app/profile/sharkaccino.bsky.social`,
+      url: `https://bsky.app/profile/sharkaccino.com`,
       style: styles.bluesky
     },
     {
