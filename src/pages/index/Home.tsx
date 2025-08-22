@@ -58,7 +58,7 @@ const Home: Component = () => {
   const { setLBData }: any = useContext(LightBoxContext);
 
   onMount(() => {
-    document.title = `${metadata.TITLE} - jackiedotjs`;
+    document.title = `${metadata.TITLE} - sharkaccino`;
 
     updateMyTime();
     setInterval(updateMyTime, 1000);

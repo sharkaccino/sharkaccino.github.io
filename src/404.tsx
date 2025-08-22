@@ -4,7 +4,7 @@ import styles from './404.module.css';
 
 const NotFound: Component = () => {
   onMount(() => {
-    document.title = `404 - jackiedotjs`;
+    document.title = `404 - sharkaccino`;
   });
 
   return (
