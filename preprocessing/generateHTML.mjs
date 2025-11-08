@@ -36,7 +36,10 @@ for (const pageDir of pageDirItems) {
   // overwrite default values with custom values as needed
   const finalData = {...mdDefaults, ...metadata};
   finalData.TITLE = `${finalData.TITLE} - sharkaccino`;
-  finalData.OGTITLE = finalData.TITLE;
+
+  if (metadata.OGTITLE == null) {
+    finalData.OGTITLE = finalData.TITLE;
+  }
   // console.debug(finalData);
 
   let fileContent = htmltemplate;

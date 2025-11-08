@@ -9,8 +9,6 @@ import styles from './Home.module.css';
 const fetchAvatars = fetch(`/metadata/avatar.json`);
 
 const Home: Component = () => {
-  const [avatarGallery, setAvatarGallery] = createSignal<GalleryEntryData>();
-  const [time, setTime] = createSignal(`0:00 PM`);
 
   const socialLinks = [
     {
@@ -45,189 +43,58 @@ const Home: Component = () => {
     },
   ]
 
-  const updateMyTime = () => {
-    setTime(new Date().toLocaleString('en-US', {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-      timeZone: `America/Los_Angeles`
-    }));
-  }
-
-  // FIXME: need a type for this
-  const { setLBData }: any = useContext(LightBoxContext);
-
   onMount(() => {
     document.title = `${metadata.TITLE} - sharkaccino`;
-
-    updateMyTime();
-    setInterval(updateMyTime, 1000);
-
-    fetchAvatars.then(async (orgResponse) => {
-      const response = orgResponse.clone();
-
-      if (response.status !== 200) {
-        return console.error(`couldn't fetch avatar gallery data: ${response.status}`);
-      }
-    
-      const data: GalleryEntryData = JSON.parse(await response.text());
-    
-      // console.debug(data);
-      setAvatarGallery(data);
-    });
   });
 
   return (
     <main>
-      <div class={styles.whoami}>
-        <a class={styles.avatar} href="javascript:void(0)" onClick={() => setLBData(avatarGallery)}>
-          <img src="/assets/avatars/icon.png" alt="Avatar" />
-        </a>
-        <div class={styles.summary}>
-          <h1>i'm jackie. i make stuff.</h1>
-          <p>
-            3d artist, designer, programmer, writer. <em>(she/her)</em><br/>
-            <br/>
-            it's about <em>{time()}</em> my time.
-          </p>
+      <div class={styles.notice}>
+        <div>
+          <h1>under<br/>construction</h1>
+          <picture>
+            <source srcset="/assets/doodle_dark.gif" media="(prefers-color-scheme: dark)" />
+            <img src="/assets/doodle_light.gif" />
+          </picture>
         </div>
+        <h2>new website coming soon(-ish)</h2>
       </div>
-
-      <h2>here's some places you can find me at</h2>
 
       <div class={styles.linklist}>
         <For each={socialLinks}>
           {(item) => {
             if (item.text) {
-              let container!: HTMLDivElement;
-              let checkbox!: HTMLInputElement;
-              let buttonContentWrapper!: HTMLDivElement;
-              let notification!: HTMLSpanElement;
-              let button!: HTMLButtonElement;
-
-              let keepCheckboxState = false;
-
-              // i already tried doing all this with css only.
-              // its 1:30 in the morning and im tired of webdev.
-              // i'm sorry
-
-              const pointerEnterHandler = (e: PointerEvent) => {
-                if (checkbox.checked) return;
-
-                if (e.pointerType === `touch`) {
-                  const buttonRect = container.getBoundingClientRect();
-                  const relX = e.clientX - buttonRect.left;
-                  
-                  if (relX >= (buttonRect.width / 2)) {
-                    // cursor is on right half
-                    buttonContentWrapper.classList.remove(styles.flipButtonLocation)
-                  } else {
-                    // cursor is on left half
-                    buttonContentWrapper.classList.add(styles.flipButtonLocation)
-                  }
-                }
-
-                checkbox.checked = true;
-              }
-
-              const forceCheckboxTrue = () => {
-                checkbox.checked = true;
-              }
-
-              const forceCheckboxFalse = () => {
-                checkbox.checked = false;
-              }
+              let labelWrapper!: HTMLDivElement;
 
               const copyButtonClickHandler = async (e: Event) => {
                 await navigator.clipboard.writeText(item.text);
 
                 // trigger copied animation
-                notification.classList.remove(styles.copyAnimator);
-                void notification.offsetWidth;
-                notification.classList.add(styles.copyAnimator);
+                labelWrapper.classList.remove(styles.copyAnimator);
+                void labelWrapper.offsetWidth;
+                labelWrapper.classList.add(styles.copyAnimator);
               }
-
-              const buttonFocusHandler = () => {
-                if (container.querySelectorAll(`*:has(:focus-visible)`).length === 0) return;
-
-                keepCheckboxState = true;
-                forceCheckboxTrue();
-              }
-
-              const buttonBlurHandler = () => {
-                keepCheckboxState = false;
-
-                // console.debug(document.activeElement);
-
-                if (document.activeElement == null) return;
-                if (buttonIsActiveElement(document.activeElement)) return;
-                if (container.querySelectorAll(`*:has(:hover)`).length === 0) return;
-
-                forceCheckboxFalse();
-              }
-
-              const containerMouseLeaveHandler = () => {
-                if (keepCheckboxState) return;
-                forceCheckboxFalse();
-              }
-
-              const buttonIsActiveElement = (target: Node|Element|HTMLElement): boolean => {
-                const descendants = container.querySelectorAll(`*`);
-                let found = false;
-                for (const node of descendants) {
-                  if (target === node) {
-                    found = true;
-                    break;
-                  }
-                }
-                
-                // console.debug(found);
-
-                return found;
-              }
-
-              document.addEventListener(`click`, (e: MouseEvent) => {
-                if (e.target == null) return;
-                if (!(e.target instanceof Node)) return;
-
-                if (!buttonIsActiveElement(e.target)) {
-                  checkbox.checked = false;
-                }
-              });
 
               return (
-                <div 
-                  ref={container} 
-                  onpointerenter={pointerEnterHandler}
-                  onmouseleave={containerMouseLeaveHandler}
-                  onclick={forceCheckboxTrue}
+                <a
                   class={item.style}
+                  href="#"
+                  onclick={copyButtonClickHandler}
                 >
-                  <input ref={checkbox} type="checkbox" autocomplete="off"/>
                   <span>{item.title}</span>
-                  <div ref={buttonContentWrapper}>
-                    <button
-                      ref={button} 
-                      onclick={copyButtonClickHandler}
-                      onfocus={buttonFocusHandler}
-                      onblur={buttonBlurHandler}
-                    >
-                      copy
-                    </button>
-                    <div>
-                      <span class={styles.textButtonContent}>{item.text}</span>
-                      <span class={styles.textCopyNotification} ref={notification}> <IconCheck/> copied!</span>
-                    </div>
+                  <div ref={labelWrapper}>
+                    <span>{item.text}</span>
+                    <span class={styles.textCopyNotification}> <IconCheck/> copied!</span>
                   </div>
-                </div>
+                </a>
               )
             }
 
             return (
               <a
+                class={item.style}
                 href={item.url} 
                 rel="external"
-                class={item.style}
               >
                 <span>{item.title}</span>
               </a>
@@ -235,8 +102,6 @@ const Home: Component = () => {
           }}
         </For>
       </div>
-
-      <span>if it's not linked here, chances are it's not me. <em>you have been warned!</em></span>
     </main>
   );
 };
