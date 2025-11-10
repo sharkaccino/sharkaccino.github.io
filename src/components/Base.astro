@@ -1,0 +1,40 @@
+---
+import Header from './Header.astro';
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+
+		<title>{title} - sharkaccino</title>
+
+		<meta property="og:title" content="%%OGTITLE%%" />
+    <meta name="twitter:title" content="%%OGTITLE%%" />
+
+    <link rel="canonical" href="%%OGURL%%" />
+    <meta property="og:url" content="%%OGURL%%" />
+    <meta name="twitter:url" content="%%OGURL%%" />
+
+    <meta name="description" content="%%OGDESCRIPTION%%" />
+    <meta property="og:description" content="%%OGDESCRIPTION%%" />
+    <meta name="twitter:description" content="%%OGDESCRIPTION%%" />
+
+    <meta property="og:image" content="/assets/avatars/icon.png" />
+    <meta name="twitter:image" content="/assets/avatars/icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="theme-color" content="#EE244A" />
+	</head>
+	<body>
+    <Header />
+		<slot />
+	</body>
+</html>
