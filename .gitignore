@@ -29,4 +29,4 @@ lerna-debug.log*
 # project files
 *.local
 /.sharkaccino
-public/metadata/*
+public/metadata
