@@ -14,10 +14,27 @@
       text-align: left;
     }
 
-    > picture {
-      user-select: none;
-      > img {
-        width: 10rem;
+    > input {
+      display: none;
+    }
+
+    > .shorkContainer {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 10rem;
+      height: 9rem;
+
+      > picture {
+        position: absolute;
+        user-select: none;
+        > img {
+          width: 100%;
+        }
+      }
+
+      .shorkGoober {
+        opacity: 0;
       }
     }
   }
@@ -199,7 +216,39 @@
   --social-icon-url: url("/assets/social_icons/kofi.svg");
 }
 
+/* 
+quick note on the image switching: we get slightly odd behavior when both rules are active, so instead we use media queries to only allow one rule at a time.
+
+yeah i could probably write some more complex rules to allow both to work more seamlessly, but this is a lot easier.
+
+and it's only supposed to be a lil easter egg anyway so who cares lol
+*/
+
+@media screen and (hover: hover) {
+  /* allows image to switch on hover */
+  .notice > div > .shorkContainer:hover {
+    > .shork {
+      opacity: 0;
+    }
+
+    > .shorkGoober {
+      opacity: 1;
+    }
+  }
+}
+
 @media screen and (not (hover: hover)) {
+  /* allows image to switch on tap */
+  .notice > div > input:checked ~ .shorkContainer {
+    > .shork {
+      opacity: 0;
+    }
+
+    > .shorkGoober {
+      opacity: 1;
+    }
+  }
+
   .linklist {
     > a > div {
       opacity: 1 !important;

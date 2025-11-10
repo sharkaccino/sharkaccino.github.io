@@ -52,10 +52,17 @@ const Home: Component = () => {
       <div class={styles.notice}>
         <div>
           <h1>under<br/>construction</h1>
-          <picture>
-            <source srcset="/assets/doodle_dark.gif" media="(prefers-color-scheme: dark)" />
-            <img src="/assets/doodle_light.gif" />
-          </picture>
+          <input type="checkbox" id="shorkToggle" />
+          <label for="shorkToggle" class={styles.shorkContainer}>
+            <picture class={styles.shork}>
+              <source srcset="/assets/doodle2_dark.gif" media="(prefers-color-scheme: dark)" />
+              <img src="/assets/doodle2_light.gif" />
+            </picture>
+            <picture class={styles.shorkGoober}>
+              <source srcset="/assets/doodle_dark.gif" media="(prefers-color-scheme: dark)" />
+              <img src="/assets/doodle_light.gif" />
+            </picture>
+          </label>
         </div>
         <h2>new website coming soon(-ish)</h2>
       </div>
