@@ -1,0 +1,81 @@
+@font-face {
+  font-family: "CoreSans";
+  font-weight: normal;
+  src: url("/coresans55.ttf") format("opentype")
+}
+
+@font-face {
+  font-family: "CoreSans";
+  font-weight: bold;
+  src: url("/coresans75.ttf") format("opentype")
+}
+
+:root {
+  --background: #a8376a;
+  --foreground: #ffffff;
+  --text: #211c2f;
+  --trim: #a8376a;
+
+  --anim-timing: cubic-bezier(0,.65,.5,1);
+
+  --void-gap: 1rem;
+  --default-content-width: 1200px;
+
+  --sidebar-desktop-size: 300px;
+  --sidebar-mobile-header: 50px;
+
+  font-family: "CoreSans", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--void-gap);
+  background-color: var(--background);
+  min-height: 100vh;
+  margin: 0;
+  background-image: url('/collage.png');
+  background-blend-mode: multiply;
+
+  &:after {
+    content: '';
+    display: block;
+    height: 0;
+  }
+}
+
+$shadow-offset: calc(var(--void-gap) / 2);
+
+header {
+  box-shadow: 0 $shadow-offset #00000055;
+}
+
+main, aside {
+  box-shadow: $shadow-offset $shadow-offset #00000055;
+}
+
+main {
+  $edgepad: 1rem;
+  background-color: var(--foreground);
+  width: calc((100% - (var(--void-gap) * 2)) - ($edgepad * 2));
+  max-width: calc(var(--default-content-width) - ($edgepad * 2));
+  padding: $edgepad;
+}
+
+a {
+  color: var(--trim);
+  text-decoration-color: transparent;
+  transition: all 250ms var(--anim-timing);
+
+  &:hover {
+    text-decoration-color: var(--trim);
+  }
+
+  &:hover,
+  &:focus-visible {
+    transition-duration: 0ms;
+  }
+}

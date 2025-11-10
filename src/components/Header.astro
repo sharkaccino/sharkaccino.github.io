@@ -1,22 +1,54 @@
 ---
+function checkPage(name: string): string {
+  const match = Astro.routePattern.match(`^\/[^\/]{0,}`);
+  if (match == null) return ``;
+  if (match[0] == name) return `selected`;
+  return ``;
+}
 ---
+
 <header>
-  <a href="/">
-    Home
+  <a class={checkPage(`/`)} href="/">
+    home
   </a>
-  <a href="/blog">
-    Blog
+  <a class={checkPage(`/blog`)} href="/blog">
+    blog
   </a>
-  <a href="/gallery">
-    Gallery
+  <a class={checkPage(`/gallery`)} href="/gallery">
+    gallery
   </a>
-  <a href="/hardware">
-    Hardware
+  <a class={checkPage(`/hardware`)} href="/hardware">
+    hardware
   </a>
-  <a href="/commissions">
-    Commissions
+  <a class={checkPage(`/commissions`)} href="/commissions">
+    commissions
   </a>
-  <a href="/contact">
-    Contact
+  <a class={checkPage(`/contact`)} href="/contact">
+    contact
   </a>
 </header>
+
+<style lang="scss">
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--foreground);
+    width: 100%;
+    height: 4rem;
+    gap: 1rem;
+
+    a {
+      padding: 0.5rem 1rem;
+
+      &.selected {
+        color: var(--foreground);
+        background-color: var(--trim);
+
+        &:hover {
+          text-decoration-color: var(--foreground);
+        }
+      }
+    }
+  }
+</style>
