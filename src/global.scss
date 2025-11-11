@@ -11,10 +11,9 @@
 }
 
 :root {
-  --background: #a8376a;
-  --foreground: #ffffff;
-  --text: #211c2f;
-  --trim: #a8376a;
+  --box-bg: #fafafa;
+  --text: #070814;
+  --trim: #922d5c;
 
   --anim-timing: cubic-bezier(0,.65,.5,1);
 
@@ -28,17 +27,25 @@
   color: var(--text);
 }
 
+@media screen and (prefers-color-scheme: dark) {
+  :root {
+    --box-bg: #232229;
+    --text: #dbd6dd;
+    --trim: #ffb581;
+  }
+}
+
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   gap: var(--void-gap);
-  background-color: var(--background);
   min-height: 100vh;
   margin: 0;
-  background-image: url('/collage.png');
-  background-blend-mode: multiply;
+  background-image: url('/wallpaper.svg');
+  background-size: cover;
+  background-position: 50% 50%;
 
   &:after {
     content: '';
@@ -47,19 +54,19 @@ body {
   }
 }
 
-$shadow-offset: calc(var(--void-gap) / 2);
+$shadow-offset: calc(var(--void-gap) / 3);
 
 header {
-  box-shadow: 0 $shadow-offset #00000055;
+  box-shadow: 0 $shadow-offset 16px #00000099;
 }
 
 main, aside {
-  box-shadow: $shadow-offset $shadow-offset #00000055;
+  box-shadow: $shadow-offset $shadow-offset 16px #00000099;
 }
 
 main {
   $edgepad: 1rem;
-  background-color: var(--foreground);
+  background-color: var(--box-bg);
   width: calc((100% - (var(--void-gap) * 2)) - ($edgepad * 2));
   max-width: calc(var(--default-content-width) - ($edgepad * 2));
   padding: $edgepad;

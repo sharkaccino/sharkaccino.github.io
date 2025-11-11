@@ -33,20 +33,19 @@ function checkPage(name: string): string {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--foreground);
+    background-color: var(--box-bg);
     width: 100%;
     height: 4rem;
-    gap: 1rem;
 
     a {
       padding: 0.5rem 1rem;
 
       &.selected {
-        color: var(--foreground);
+        color: var(--box-bg);
         background-color: var(--trim);
 
         &:hover {
-          text-decoration-color: var(--foreground);
+          text-decoration-color: var(--box-bg);
         }
       }
     }
