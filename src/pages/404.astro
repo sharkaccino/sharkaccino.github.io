@@ -1,0 +1,66 @@
+---
+import Base from '../Base.astro';
+import NotFoundText from '../components/NotFoundText';
+---
+
+<Base title="404" width="medium">
+	<div class="notfound">
+		<h1>404</h1>
+		<div class="doodle">
+			<img src="/doodle_404.png" />
+			<span><NotFoundText /></span>
+		</div>
+		<h2>Not Found</h2>
+		<a href="/">return to home page</a>
+	</div>
+</Base>
+
+<style lang="scss">
+	.notfound {
+		width: 100%;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		column-gap: 3rem;
+		box-sizing: border-box;
+		padding: 12%;
+
+		h1 {
+			font-size: 14rem;
+			font-weight: normal;
+			margin: 0;
+		}
+
+		h2 {
+			margin: 0;
+			font-size: 2rem;
+			display: flex;
+			align-items: center;
+		}
+
+		.doodle {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			// TODO: this doesnt work well in dark mode.
+			img {
+				width: 10rem;
+				mix-blend-mode: multiply;
+				margin-bottom: 1rem;
+			}
+
+			span {
+				max-width: 12rem;
+				text-align: center;
+				font-style: italic;
+				opacity: 0.5;
+			}
+		}
+
+		a {
+			justify-self: center;
+			text-align: center;
+			padding: 1rem;
+		}
+	}
+</style>

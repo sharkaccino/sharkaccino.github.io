@@ -19,6 +19,8 @@
 
   --void-gap: 1rem;
   --default-content-width: 1200px;
+  --content-width-medium: 1000px;
+  --content-width-small: 800px;
 
   --sidebar-desktop-size: 300px;
   --sidebar-mobile-header: 50px;
@@ -66,10 +68,21 @@ main, aside {
 
 main {
   $edgepad: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: var(--box-bg);
   width: calc((100% - (var(--void-gap) * 2)) - ($edgepad * 2));
   max-width: calc(var(--default-content-width) - ($edgepad * 2));
   padding: $edgepad;
+
+  &.medium {
+    max-width: calc(var(--content-width-medium) - ($edgepad * 2));
+  }
+
+  &.small {
+    max-width: calc(var(--content-width-small) - ($edgepad * 2));
+  }
 }
 
 a {
