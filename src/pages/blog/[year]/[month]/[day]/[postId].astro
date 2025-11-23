@@ -8,6 +8,8 @@ import { getSimplifiedDate, getUTCDateComponents } from '../../../../../util/dat
 
 // TODO: custom embed/opengraph content
 
+// TODO: add button to return to post list
+
 export const getStaticPaths = (async () => {
 	const posts = await getCollection(`blog`);
 
