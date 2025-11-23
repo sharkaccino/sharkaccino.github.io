@@ -1,5 +1,6 @@
 ---
 import Header from './components/Header.astro';
+import Footer from './components/Footer.astro';
 import './global.scss';
 const { title, width } = Astro.props;
 ---
@@ -39,5 +40,6 @@ const { title, width } = Astro.props;
 		<main class={width}>
       <slot />
     </main>
+    <Footer />
 	</body>
 </html>

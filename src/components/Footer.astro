@@ -1,0 +1,128 @@
+---
+import { readFile } from 'node:fs/promises';
+import FlavorText from './FlavorText';
+import RelativeBuildTime from './RelativeBuildTime';
+
+const buildTimeRaw = await readFile(`./public/metadata/buildTime.txt`, { encoding: 'utf-8'});
+const revHash = await readFile(`./public/metadata/revHash.txt`, { encoding: 'utf-8'});
+
+const buildTime = new Date(parseInt(buildTimeRaw));
+
+---
+
+<footer>
+  <a href="#">back to top</a>
+  <div class="orientationFlipper">
+    <div class="copyrightBlock">
+      <img src="/favicon.svg" />
+      <div>
+        <span>copyright &copy; {new Date().getFullYear()} sharkaccino</span>
+        <span>all rights reserved</span>
+        <span class="flavorText"><FlavorText client:load /></span>
+      </div>
+    </div>
+    <div class="siteMetaBlock">
+      <div>
+        <span>last updated:</span>
+        <code>
+          <time datetime={buildTime.toISOString()}>
+            {buildTime.toUTCString().toLocaleLowerCase()}
+          </time>
+          <br>
+          <RelativeBuildTime buildTime={buildTime} client:load />
+        </code>
+      </div>
+      <div>
+        <span>revision hash:</span>
+        <code>
+          {revHash}
+        </code>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style lang="scss">
+  footer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    width: 100%;
+    height: var(--footer-height);
+    max-height: var(--footer-height);
+
+    > a {
+      background-color: var(--footer-text);
+      color: var(--footer-bg);
+      padding: 0.75rem 1rem;
+    }
+
+    .orientationFlipper {
+      width: 100%;
+      max-width: var(--content-width-small);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .copyrightBlock {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+
+      img {
+        width: 8rem;
+        user-select: none;
+        background-color: var(--footer-text);
+        // cursed method of achieving recolorable img while preserving context menu functionality
+        object-position: 100vh 100vh;
+        mask-image: url('/favicon.svg');
+        mask-mode: luminance;
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: initial;
+        width: 16rem;
+
+        .flavorText {
+          width: 100%;
+          display: flex;
+          opacity: 0.75;
+          font-style: italic;
+          margin-bottom: -1rem;
+
+          // :global() needed here to prevent scoping which wont work with solid components
+          :global(a) {
+            display: inline-block;
+            color: var(--footer-text);
+            padding: 1rem;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+          }
+        }
+      }
+    }
+
+    .siteMetaBlock {
+      display: flex;
+      flex-direction: column;
+      opacity: 0.5;
+      gap: 1rem;
+
+      div {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+</style>

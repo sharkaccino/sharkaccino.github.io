@@ -12,8 +12,12 @@
 
 :root {
   --box-bg: #fafafa;
+  --footer-bg: #232229;
+  --footer-text: #dbd6dd;
   --text: #070814;
   --trim: #922d5c;
+
+  --footer-height: 20rem;
 
   --anim-timing: cubic-bezier(0,.65,.5,1);
 
@@ -21,9 +25,6 @@
   --default-content-width: 1200px;
   --content-width-medium: 1000px;
   --content-width-small: 800px;
-
-  --sidebar-desktop-size: 300px;
-  --sidebar-mobile-header: 50px;
 
   font-family: "CoreSans", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text);
@@ -37,29 +38,27 @@
   }
 }
 
+$shadow-offset: calc(var(--void-gap) / 3);
+
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   gap: var(--void-gap);
-  min-height: 100vh;
+  min-height: calc(100vh + var(--footer-height));
   margin: 0;
   background-image: url('/wallpaper.svg');
   background-size: cover;
   background-position: 50% 50%;
-
-  &:after {
-    content: '';
-    display: block;
-    height: 0;
-  }
 }
-
-$shadow-offset: calc(var(--void-gap) / 3);
 
 header {
   box-shadow: 0 $shadow-offset 16px #00000099;
+}
+
+footer {
+  box-shadow: 0 calc($shadow-offset * -1) 16px #00000099;
 }
 
 main, aside {
@@ -91,11 +90,15 @@ a {
   transition: all 250ms var(--anim-timing);
 
   &:hover {
-    text-decoration-color: var(--trim);
+    text-decoration-color: currentColor;
   }
 
   &:hover,
   &:focus-visible {
     transition-duration: 0ms;
   }
+}
+
+code {
+  font-size: 1rem;
 }
