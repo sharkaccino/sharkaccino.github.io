@@ -1,0 +1,137 @@
+---
+import { type GetStaticPaths } from "astro";
+import { getCollection, render } from 'astro:content';
+import Base from '../../../../../Base.astro';
+
+export const getStaticPaths = (async () => {
+	const posts = await getCollection(`blog`);
+
+	const output = [];
+
+	for (const post of posts) {
+		const pubDate: Date = post.data.pubDate;
+
+		const yyyy = pubDate.getUTCFullYear();
+		const mm = pubDate.getUTCMonth() + 1;
+		const dd = pubDate.getUTCDate();
+
+		const title: string = post.data.title;
+		const spacesRemoved = title.replaceAll(` `, `-`);
+		const finalTitle = spacesRemoved.replace(/[^a-zA-Z0-9_-]/, ``);
+
+		output.push({ 
+			params: {
+				postId: pubDate.getTime(),
+				year: yyyy,
+				month: mm,
+				day: dd
+			},
+			props: {
+				post
+			}
+		});
+	}
+
+	return output;
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const getSimplifiedDate = (input: Date): string => {
+	const dtf = new Intl.DateTimeFormat(`en-us`, { year: `numeric`, month: `long`, day: `numeric` });
+
+	// shifts input date to match UTC
+	// probably pointless when deployed to a production server, but it makes things more consistent during local dev
+	const shifted = new Date(input.getTime() + input.getTimezoneOffset() * 60000);
+
+	return dtf.format(shifted).toLowerCase();
+}
+
+---
+
+<Base title={post.data.title} width="small">
+	<h1>{post.data.title}</h1>
+	<div class="timestampBlock">
+		<span><time datetime={post.data.pubDate.toISOString()}>{getSimplifiedDate(post.data.pubDate)}</time></span>
+		{post.data.updatedDate && <span class="updated">
+			updated: <time datetime={post.data.updatedDate.toISOString()}>{getSimplifiedDate(post.data.updatedDate)}</time>
+		</span>}
+	</div>
+	<div class="contentWrapper">
+		<Content />
+		<div id="empty">
+			<span>If you're seeing this, something has gone <strong>terribly wrong!</strong></span>
+			<span>...or this post just has no contents, for some reason.</span>
+		</div>
+	</div>
+	<ul class="tags">
+		{post.data.tags.map((tag: string) => (
+			<li>#<span>{tag}</span></li>
+		))}
+	</ul>
+</Base>
+
+<style lang="scss">
+	h1 {
+		width: 100%;
+		margin: 0;
+	}
+
+	.timestampBlock {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		margin-top: 0.5rem;
+
+		.updated {
+			opacity: 0.5;
+			font-style: italic;
+		}
+	}
+
+	.contentWrapper {
+		width: 100%;
+		margin-top: 2rem;
+		box-sizing: border-box;
+
+		:global(:nth-last-child(2)) {
+			margin-bottom: 0;
+		}
+
+		#empty {
+			display: none;
+			flex-direction: column;
+			align-items: center;
+			gap: 1rem;
+			padding: 6rem 2rem;
+			opacity: 0.5;
+		}
+
+		#empty:only-child {
+			display: flex;
+		}
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		width: 100%;
+		list-style: none;
+		opacity: 0.5;
+		padding: 0;
+		gap: 0.25rem 1rem;
+		margin: 0;
+		margin-top: 2rem;
+
+		li {
+			display: inline-flex;
+			max-width: 100%;
+
+			span {
+				width: 100%;
+				word-wrap: break-word;
+			}
+		}
+	}
+</style>

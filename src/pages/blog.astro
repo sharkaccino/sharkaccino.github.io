@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../Base.astro';
+
+const posts = await getCollection(`blog`);
+
+---
+
+<Base title="blog">
+	top-level blog page
+
+	{posts.map((post: any) => {
+		const pubDate: Date = post.data.pubDate;
+
+		const yyyy = pubDate.getUTCFullYear();
+		const mm = pubDate.getUTCMonth() + 1;
+		const dd = pubDate.getUTCDate();
+
+		const datepath = `${yyyy}/${mm}/${dd}`;
+
+		return (
+			<a href={`/blog/${datepath}/${pubDate.getTime()}`}>{post.data.title}</a>
+		)
+	})}
+</Base>
