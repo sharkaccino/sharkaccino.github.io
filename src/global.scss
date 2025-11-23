@@ -12,10 +12,13 @@
 
 :root {
   --box-bg: #fafafa;
+  --secondary-box-bg: #f5bbdb;
   --footer-bg: #232229;
   --footer-text: #dbd6dd;
-  --text: #070814;
+  --text: #232229;
   --trim: #922d5c;
+
+  --edge-pad: 3rem;
 
   --footer-height: 20rem;
 
@@ -62,25 +65,25 @@ footer {
 }
 
 main, aside {
+  position: relative;
   box-shadow: $shadow-offset $shadow-offset 16px #00000099;
 }
 
 main {
-  $edgepad: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: var(--box-bg);
-  width: calc((100% - (var(--void-gap) * 2)) - ($edgepad * 2));
-  max-width: calc(var(--default-content-width) - ($edgepad * 2));
-  padding: $edgepad;
+  width: calc((100% - (var(--void-gap) * 2)) - (var(--edge-pad) * 2));
+  max-width: calc(var(--default-content-width) - (var(--edge-pad) * 2));
+  padding: var(--edge-pad);
 
   &.medium {
-    max-width: calc(var(--content-width-medium) - ($edgepad * 2));
+    max-width: calc(var(--content-width-medium) - (var(--edge-pad) * 2));
   }
 
   &.small {
-    max-width: calc(var(--content-width-small) - ($edgepad * 2));
+    max-width: calc(var(--content-width-small) - (var(--edge-pad) * 2));
   }
 }
 

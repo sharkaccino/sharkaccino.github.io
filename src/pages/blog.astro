@@ -1,25 +1,112 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../Base.astro';
+import { getSimplifiedDate, getUTCDateComponents } from '../util/dateTools';
 
 const posts = await getCollection(`blog`);
 
 ---
 
 <Base title="blog">
-	top-level blog page
+	<div class="options">
+		<input type="search" placeholder="search"/>
+		<select>
+			<option>newest first</option>
+			<option>oldest first</option>
+		</select>
+	</div>
 
-	{posts.map((post: any) => {
-		const pubDate: Date = post.data.pubDate;
+	<div class="postlist">
+		{posts.map((post: any) => {
+			const pubDate: Date = post.data.pubDate;
 
-		const yyyy = pubDate.getUTCFullYear();
-		const mm = pubDate.getUTCMonth() + 1;
-		const dd = pubDate.getUTCDate();
+			const dc = getUTCDateComponents(pubDate);
 
-		const datepath = `${yyyy}/${mm}/${dd}`;
+			const datepath = `${dc.year}/${dc.month}/${dc.day}`;
 
-		return (
-			<a href={`/blog/${datepath}/${pubDate.getTime()}`}>{post.data.title}</a>
-		)
-	})}
+			const pubDateISO = post.data.pubDate.toISOString();
+			const pubDateSimple = getSimplifiedDate(post.data.pubDate);
+
+			const editDateISO = post.data.updatedDate.toISOString();
+			const editDateSimple = getSimplifiedDate(post.data.updatedDate);
+
+			return (
+				<a href={`/blog/${datepath}/${pubDate.getTime()}`}>
+					<article>
+						<h2>{post.data.title}</h2>
+						<span>posted <time datetime={pubDateISO}>{pubDateSimple}</time></span>
+						{post.data.updatedDate && <span class="updated">
+							updated <time datetime={editDateISO}>{editDateSimple}</time>
+						</span>}
+					</article>
+				</a>
+			)
+		})}
+	</div>
 </Base>
+
+<style lang="scss">
+	$optsHeight: 12rem;
+
+	.options {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: $optsHeight;
+		background-color: var(--secondary-box-bg);
+		padding: var(--edge-pad);
+		box-sizing: border-box;
+	}
+
+	input[type="search"] {
+		padding: 0.5rem 0.75rem;
+		font-size: 1rem;
+		background-color: var(--box-bg);
+		color: var(--text);
+		border: none;
+		width: 24rem;
+	}
+
+	.postlist {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: $optsHeight;
+	}
+
+	a {
+		text-decoration-color: transparent;
+	}
+
+	article {
+		background-color: var(--trim);
+		color: var(--box-bg);
+		display: flex;
+		flex-direction: column;
+		aspect-ratio: 1.5 / 1;
+		width: 16rem;
+		padding: 1rem;
+
+		h2 {
+			text-decoration-line: underline;
+			text-decoration-color: transparent;
+			transition: all 250ms var(--anim-timing);
+			overflow: hidden;
+			margin: 0;
+			flex: 1;
+		}
+
+		.updated {
+			opacity: 0.5;
+		}
+	}
+
+	a:is(:hover, :focus-visible) h2 {
+		text-decoration-color: currentColor;
+		transition-duration: 0ms;
+	}
+</style>

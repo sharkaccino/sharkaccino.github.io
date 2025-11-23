@@ -2,6 +2,7 @@
 import { type GetStaticPaths } from "astro";
 import { getCollection, render } from 'astro:content';
 import Base from '../../../../../Base.astro';
+import { getSimplifiedDate, getUTCDateComponents } from '../../../../../util/dateTools';
 
 export const getStaticPaths = (async () => {
 	const posts = await getCollection(`blog`);
@@ -11,20 +12,14 @@ export const getStaticPaths = (async () => {
 	for (const post of posts) {
 		const pubDate: Date = post.data.pubDate;
 
-		const yyyy = pubDate.getUTCFullYear();
-		const mm = pubDate.getUTCMonth() + 1;
-		const dd = pubDate.getUTCDate();
-
-		const title: string = post.data.title;
-		const spacesRemoved = title.replaceAll(` `, `-`);
-		const finalTitle = spacesRemoved.replace(/[^a-zA-Z0-9_-]/, ``);
+		const dc = getUTCDateComponents(pubDate);
 
 		output.push({ 
 			params: {
 				postId: pubDate.getTime(),
-				year: yyyy,
-				month: mm,
-				day: dd
+				year: dc.year,
+				month: dc.month,
+				day: dc.day
 			},
 			props: {
 				post
@@ -38,24 +33,20 @@ export const getStaticPaths = (async () => {
 const { post } = Astro.props;
 const { Content } = await render(post);
 
-const getSimplifiedDate = (input: Date): string => {
-	const dtf = new Intl.DateTimeFormat(`en-us`, { year: `numeric`, month: `long`, day: `numeric` });
+const pubDateISO = post.data.pubDate.toISOString();
+const pubDateSimple = getSimplifiedDate(post.data.pubDate);
 
-	// shifts input date to match UTC
-	// probably pointless when deployed to a production server, but it makes things more consistent during local dev
-	const shifted = new Date(input.getTime() + input.getTimezoneOffset() * 60000);
-
-	return dtf.format(shifted).toLowerCase();
-}
+const editDateISO = post.data.updatedDate.toISOString();
+const editDateSimple = getSimplifiedDate(post.data.updatedDate);
 
 ---
 
 <Base title={post.data.title} width="small">
 	<h1>{post.data.title}</h1>
 	<div class="timestampBlock">
-		<span><time datetime={post.data.pubDate.toISOString()}>{getSimplifiedDate(post.data.pubDate)}</time></span>
+		<span><time datetime={pubDateISO}>{pubDateSimple}</time></span>
 		{post.data.updatedDate && <span class="updated">
-			updated: <time datetime={post.data.updatedDate.toISOString()}>{getSimplifiedDate(post.data.updatedDate)}</time>
+			updated: <time datetime={editDateISO}>{editDateSimple}</time>
 		</span>}
 	</div>
 	<div class="contentWrapper">
