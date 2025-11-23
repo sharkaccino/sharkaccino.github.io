@@ -4,6 +4,10 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../../../../Base.astro';
 import { getSimplifiedDate, getUTCDateComponents } from '../../../../../util/dateTools';
 
+// TODO: move most of this logic to its own component so it can be shared with the main blog page for feed view
+
+// TODO: custom embed/opengraph content
+
 export const getStaticPaths = (async () => {
 	const posts = await getCollection(`blog`);
 

@@ -1,6 +1,10 @@
 import { defineCollection, z } from "astro:content";
 import { glob, file } from "astro/loaders";
 
+// TODO: support for featured images in blog posts
+
+// TODO: gallery content
+
 const blog = defineCollection({
   loader: glob({ pattern: `**/*.md`, base: `./public/blog` }),
   schema: z.object({
