@@ -5,6 +5,7 @@ import { Show } from "solid-js";
 import Base from '../../../../../Base.astro';
 import BlogPost from "../../../../../components/blog/BlogPost.astro";
 import { getUTCDateComponents } from '../../../../../util/dateTools';
+import SVGIcon from "../../../../../components/SVGIcon.astro";
 
 // TODO: custom embed/opengraph content
 
@@ -76,13 +77,27 @@ const { post, postIndex, totalPosts, prevURL, nextURL } = Astro.props;
 		</main>
 		<nav>
 			<Show when={prevURL != null}>
-				<a class="prevButton contentBox" href={prevURL}>&larr;</a>
+				<a 
+					class="prevButton contentBox" 
+					href={prevURL} 
+					aria-label="Previous Post"
+				>
+					<SVGIcon src="/icons/chevron-left.svg" />
+					<!-- &larr; -->
+				</a>
 			</Show>
 			
 			<span class="index contentBox">{postIndex} / {totalPosts}</span>
 
 			<Show when={nextURL != null}>
-				<a class="nextButton contentBox" href={nextURL}>&rarr;</a>
+				<a 
+					class="nextButton contentBox" 
+					href={nextURL} 
+					aria-label="Next Post"
+				>
+					<SVGIcon src="/icons/chevron-right.svg" />
+				  <!-- &rarr; -->
+				</a>
 			</Show>
 		</nav>
 	</div>
@@ -96,9 +111,10 @@ const { post, postIndex, totalPosts, prevURL, nextURL } = Astro.props;
 		margin-top: var(--inner-void-gap);
 	}
 	.prevButton, .nextButton {
-		padding: 1rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		width: 10rem;
-		text-align: center;
 	}
 
 	.prevButton {
