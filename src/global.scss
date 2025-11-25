@@ -12,7 +12,7 @@
 
 :root {
   --box-bg: #fafafa;
-  --secondary-box-bg: #f5bbdb;
+  --secondary-box-bg: #e9e9e9;
   --footer-bg: #232229;
   --footer-text: #dbd6dd;
   --text: #232229;
@@ -20,6 +20,7 @@
 
   --outer-void-gap: 3rem;
   --inner-void-gap: calc((var(--outer-void-gap) * 0.25));
+
   --edge-pad: 3rem;
 
   --footer-height: 20rem;
@@ -37,6 +38,7 @@
 @media screen and (prefers-color-scheme: dark) {
   :root {
     --box-bg: #232229;
+    --secondary-box-bg: #15151a;
     --text: #dbd6dd;
     --trim: #ffb581;
   }

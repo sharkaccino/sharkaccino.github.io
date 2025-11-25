@@ -1,12 +1,13 @@
 ---
-const { src, alt } = Astro.props;
+const { src, class: className, alt } = Astro.props;
 
 ---
 
-<span aria-label={alt}></span>
+<div aria-label={alt} class={className}></div>
 
 <style lang="scss" define:vars={{ icon: `url(${src})` }}>
-  span {
+  div {
+    display: inline-block;
     background-color: currentColor;
     width: 24px;
     height: 24px;
