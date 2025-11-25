@@ -47,6 +47,7 @@ posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 						<article>
 							<Show when={post.data.image != null}>
 								<div class="featuredImage">
+									<img class="hover" src={post.data.image} />
 									<img src={post.data.image} />
 								</div>
 							</Show>
@@ -114,23 +115,35 @@ posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 			margin: calc($gridPostPad * -1);
 			margin-bottom: 2rem;
 			background-color: var(--trim);
-			mask-image: linear-gradient(to bottom, #888, black);
+			mask-image: linear-gradient(to bottom, #666, black);
 			mask-mode: luminance;
 			mask-size: cover;;
 
 			img {
+				position: absolute;
+				top: 0;
+				left: 0;
 				object-fit: cover;
 				width: 100%;
 				height: 100%;
+				transition: all 250ms var(--anim-timing);
+			}
+
+			img:not(.hover) {
 				filter: saturate(0);
 				mix-blend-mode: multiply;
+			}
+
+			img.hover {
+				z-index: 1;
+				opacity: 0;
 			}
 		}
 
 		// reordering elements doesnt change z-index 
 		// for some reason so i have to do this
 		:global(:not(.featuredImage)) {
-			z-index: 1;
+			z-index: 10;
 		}
 
 		:global(.titleWrapper) {
@@ -157,8 +170,22 @@ posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 		}
 	}
 
-	a:is(:hover, :focus-visible) :global(h2) {
-		text-decoration-color: currentColor;
-		transition-duration: 0ms;
+	a:is(:hover, :focus-visible) {
+		article img {
+			transition-duration: 0ms;
+		}
+
+		article img.hover {
+			opacity: 1;
+		}
+
+		article img:not(.hover) {
+			opacity: 0;
+		}
+
+		:global(h2) {
+			text-decoration-color: currentColor;
+			transition-duration: 0ms;
+		}
 	}
 </style>
