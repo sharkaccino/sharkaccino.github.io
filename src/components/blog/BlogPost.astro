@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content';
 import { Show } from "solid-js";
-import { getSimplifiedDate } from '../util/dateTools';
+import { getSimplifiedDate } from '../../util/dateTools';
 
 // TODO: fix image height on smaller displays
 
@@ -70,6 +70,7 @@ if (post.data.updatedDate) {
 
 	h1 {
 		width: 100%;
+		overflow-wrap: anywhere;
 		margin: 0;
 	}
 

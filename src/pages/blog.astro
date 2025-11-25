@@ -3,8 +3,11 @@ import { getCollection } from 'astro:content';
 import { Show } from "solid-js";
 import Base from '../Base.astro';
 import { getSimplifiedDate, getUTCDateComponents } from '../util/dateTools';
+import GridTitle from '../components/blog/GridTitle';
 
 const posts = await getCollection(`blog`);
+
+posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
 // TODO: search, filtering, sorting, view modes (grid, list, feed), pagination
 
@@ -40,14 +43,14 @@ const posts = await getCollection(`blog`);
 				}
 
 				return (
-					<a href={`/blog/${datepath}/${pubDate.getTime()}`}>
+					<a href={`/blog/${datepath}/${pubDate.getTime()}`} title={post.data.title}>
 						<article>
 							<Show when={post.data.image != null}>
 								<div class="featuredImage">
 									<img src={post.data.image} />
 								</div>
 							</Show>
-							<h2>{post.data.title}</h2>
+							<GridTitle client:load>{post.data.title}</GridTitle>
 							<span>posted <time datetime={pubDateISO}>{pubDateSimple}</time></span>
 							<Show when={post.data.updatedDate != null}>
 								<span class="updated">
@@ -82,15 +85,15 @@ const posts = await getCollection(`blog`);
 	}
 
 	.postlist {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
-		gap: 1rem;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--inner-void-gap);
 		flex: 1;
 	}
 
 	a {
+		aspect-ratio: 1.5 / 1;
+		width: 100%;
 		text-decoration-color: transparent;
 	}
 
@@ -101,8 +104,7 @@ const posts = await getCollection(`blog`);
 		color: var(--box-bg);
 		display: flex;
 		flex-direction: column;
-		aspect-ratio: 1.5 / 1;
-		width: 16rem;
+		height: 100%;
 		padding: $gridPostPad;
 
 		.featuredImage {
@@ -127,17 +129,27 @@ const posts = await getCollection(`blog`);
 
 		// reordering elements doesnt change z-index 
 		// for some reason so i have to do this
-		:not(.featuredImage) {
+		:global(:not(.featuredImage)) {
 			z-index: 1;
 		}
 
-		h2 {
-			text-decoration-line: underline;
-			text-decoration-color: transparent;
-			transition: all 250ms var(--anim-timing);
+		:global(.titleWrapper) {
+			width: 100%;
+			height: 80%;
+			margin-bottom: auto;
 			overflow: hidden;
-			margin: 0;
-			flex: 1;
+
+			&:global(.overflowing) {
+				mask-image: linear-gradient(to bottom, #FFF 50%, transparent calc(100% - 1em));
+			}
+
+			:global(h2) {
+				text-decoration-line: underline;
+				text-decoration-color: transparent;
+				transition: all 250ms var(--anim-timing);
+				overflow-wrap: anywhere;
+				margin: 0;
+			}
 		}
 
 		.updated {
@@ -145,7 +157,7 @@ const posts = await getCollection(`blog`);
 		}
 	}
 
-	a:is(:hover, :focus-visible) h2 {
+	a:is(:hover, :focus-visible) :global(h2) {
 		text-decoration-color: currentColor;
 		transition-duration: 0ms;
 	}

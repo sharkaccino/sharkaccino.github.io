@@ -1,6 +1,7 @@
 ---
-title: "example post"
-pubDate: "2025-11-24"
+title: "loooooooooooooooooooooooooooooooooooooooooooooooooooong post titleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+image: "/gallery/avatars/jackie-2025.png"
+pubDate: "2025-11-24 11:15"
 tags: [ "h" ]
 ---
 
