@@ -1,0 +1,16 @@
+---
+const { src, alt } = Astro.props;
+
+---
+
+<span aria-label={alt}></span>
+
+<style lang="scss" define:vars={{ icon: `url(${src})` }}>
+  span {
+    background-color: currentColor;
+    width: 24px;
+    height: 24px;
+    mask-image: var(--icon);
+    mask-size: contain;
+  }
+</style>
