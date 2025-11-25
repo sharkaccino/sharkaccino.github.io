@@ -1,11 +1,10 @@
 ---
 import { type GetStaticPaths } from "astro";
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import { Show } from "solid-js";
 import Base from '../../../../../Base.astro';
-import { getSimplifiedDate, getUTCDateComponents } from '../../../../../util/dateTools';
-
-// TODO: move most of this logic to its own component so it can be shared with the main blog page for feed view
+import BlogPost from "../../../../../components/BlogPost.astro";
+import { getUTCDateComponents } from '../../../../../util/dateTools';
 
 // TODO: custom embed/opengraph content
 
@@ -14,10 +13,35 @@ import { getSimplifiedDate, getUTCDateComponents } from '../../../../../util/dat
 export const getStaticPaths = (async () => {
 	const posts = await getCollection(`blog`);
 
+	posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
 	const output = [];
 
-	for (const post of posts) {
+	for (let i = 0; i < posts.length; i++) {
+		const post = posts[i];
 		const pubDate: Date = post.data.pubDate;
+
+		let prevURL = null;
+		let nextURL = null;
+
+		const prevPost = posts[i-1];
+		const nextPost = posts[i+1];
+
+		if (prevPost != null) {
+			const prevPubDate = prevPost.data.pubDate;
+			const prevDc = getUTCDateComponents(prevPubDate);
+
+			const datepath = `${prevDc.year}/${prevDc.month}/${prevDc.day}`;
+			prevURL = `/blog/${datepath}/${prevPubDate.getTime()}`;
+		}
+
+		if (nextPost != null) {
+			const nextPubDate = nextPost.data.pubDate;
+			const nextDc = getUTCDateComponents(nextPubDate);
+
+			const datepath = `${nextDc.year}/${nextDc.month}/${nextDc.day}`;
+			nextURL = `/blog/${datepath}/${nextPubDate.getTime()}`;
+		}
 
 		const dc = getUTCDateComponents(pubDate);
 
@@ -29,7 +53,11 @@ export const getStaticPaths = (async () => {
 				day: dc.day
 			},
 			props: {
-				post
+				post,
+				postIndex: i+1,
+				totalPosts: posts.length,
+				prevURL: prevURL,
+				nextURL: nextURL
 			}
 		});
 	}
@@ -37,130 +65,52 @@ export const getStaticPaths = (async () => {
 	return output;
 }) satisfies GetStaticPaths;
 
-const { post } = Astro.props;
-const { Content } = await render(post);
-
-const pubDateISO = post.data.pubDate.toISOString();
-const pubDateSimple = getSimplifiedDate(post.data.pubDate);
-
-let editDateISO;
-let editDateSimple;
-
-if (post.data.updatedDate) {
-	editDateISO = post.data.updatedDate.toISOString();
-	editDateSimple = getSimplifiedDate(post.data.updatedDate);
-}
+const { post, postIndex, totalPosts, prevURL, nextURL } = Astro.props;
 
 ---
 
-<Base title={post.data.title} width="small">
-	<Show when={post.data.image != null}>
-		<div class="featuredImage">
-			<img src={post.data.image} />
-		</div>
-	</Show>
-	<h1>{post.data.title}</h1>
-	<div class="timestampBlock">
-		<span><time datetime={pubDateISO}>{pubDateSimple}</time></span>
-		<Show when={post.data.updatedDate != null}>
-			<span class="updated">
-				updated: <time datetime={editDateISO}>{editDateSimple}</time>
-			</span>
+<Base title={post.data.title}>
+	<main class="small contentBox">
+		<BlogPost post={post} />
+	</main>
+	<nav class="small">
+		<Show when={prevURL != null}>
+			<a class="prevButton contentBox" href={prevURL}>previous</a>
 		</Show>
-	</div>
-	<div class="contentWrapper">
-		<Content />
-		<div id="empty">
-			<span>If you're seeing this, something has gone <strong>terribly wrong!</strong></span>
-			<span>...or this post just has no contents, for some reason.</span>
-		</div>
-	</div>
-	<ul class="tags">
-		{post.data.tags.map((tag: string) => (
-			<li>#<span>{tag}</span></li>
-		))}
-	</ul>
+		
+		<span class="index contentBox">{postIndex} / {totalPosts}</span>
+
+		<Show when={nextURL != null}>
+			<a class="nextButton contentBox" href={nextURL}>next</a>
+		</Show>
+	</nav>
 </Base>
 
 <style lang="scss">
-	.featuredImage {
-		width: calc(100% + (var(--edge-pad) * 2));
-		height: 16rem;
-		margin: calc(var(--edge-pad) * -1);
-		margin-bottom: 2rem;
-		background-color: var(--trim);
-		mask-image: linear-gradient(to bottom, #aaa, black);
-		mask-mode: luminance;
-		mask-size: cover;
-
-		img {
-			object-fit: cover;
-			width: 100%;
-			height: 100%;
-			filter: saturate(0);
-			mix-blend-mode: multiply;
-		}
-	}
-
-	h1 {
-		width: 100%;
-		margin: 0;
-	}
-
-	.timestampBlock {
-		display: flex;
+	nav {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
 		justify-content: space-between;
-		width: 100%;
-		margin-top: 0.5rem;
-
-		.updated {
-			opacity: 0.5;
-			font-style: italic;
-		}
+		margin-top: calc((var(--void-gap) * 0.25));
+	}
+	.prevButton, .nextButton {
+		padding: 1rem;
+		width: 10rem;
+		text-align: center;
 	}
 
-	.contentWrapper {
-		width: 100%;
-		margin-top: 2rem;
-		box-sizing: border-box;
-
-		:global(:nth-last-child(2)) {
-			margin-bottom: 0;
-		}
-
-		#empty {
-			display: none;
-			flex-direction: column;
-			align-items: center;
-			gap: 1rem;
-			padding: 6rem 2rem;
-			opacity: 0.5;
-		}
-
-		#empty:only-child {
-			display: flex;
-		}
+	.prevButton {
+		grid-column: 1;
 	}
 
-	.tags {
-		display: flex;
-		flex-wrap: wrap;
-		width: 100%;
-		list-style: none;
-		opacity: 0.5;
-		padding: 0;
-		gap: 0.25rem 1rem;
-		margin: 0;
-		margin-top: 2rem;
+	.index {
+		grid-column: 2;
+		justify-self: center;
+		padding: 1rem;
+	}
 
-		li {
-			display: inline-flex;
-			max-width: 100%;
-
-			span {
-				width: 100%;
-				word-wrap: break-word;
-			}
-		}
+	.nextButton {
+		grid-column: 3;
+		justify-self: flex-end;
 	}
 </style>

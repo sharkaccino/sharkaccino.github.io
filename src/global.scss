@@ -54,37 +54,37 @@ body {
   background-position: 50% 50%;
 }
 
-$shadow-offset: 0.6rem;
-
-header {
-  box-shadow: 0 $shadow-offset 16px #00000099;
-}
-
-footer {
-  box-shadow: 0 calc($shadow-offset * -1) 16px #00000099;
-}
-
-main, aside {
+.contentBox, main, header, footer {
   position: relative;
-  box-shadow: $shadow-offset $shadow-offset 16px #00000099;
+  box-shadow: 0.6rem 0.6rem 16px #00000099;
+}
+
+.contentBox {
+  background-color: var(--box-bg);
+  box-sizing: border-box;
+}
+
+.large, .medium, .small {
+  width: calc(100vw - (var(--void-gap) * 2) - (var(--edge-pad) * 2));
+}
+
+.large {
+  max-width: calc(var(--default-content-width) - (var(--edge-pad) * 2));
+}
+
+.medium {
+  max-width: calc(var(--content-width-medium) - (var(--edge-pad) * 2));
+}
+
+.small {
+  max-width: calc(var(--content-width-small) - (var(--edge-pad) * 2));
 }
 
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--box-bg);
-  width: calc((100% - (var(--void-gap) * 2)) - (var(--edge-pad) * 2));
-  max-width: calc(var(--default-content-width) - (var(--edge-pad) * 2));
   padding: var(--edge-pad);
-
-  &.medium {
-    max-width: calc(var(--content-width-medium) - (var(--edge-pad) * 2));
-  }
-
-  &.small {
-    max-width: calc(var(--content-width-small) - (var(--edge-pad) * 2));
-  }
 }
 
 a {
