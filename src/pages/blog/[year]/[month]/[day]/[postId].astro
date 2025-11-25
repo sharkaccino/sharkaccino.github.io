@@ -54,7 +54,7 @@ export const getStaticPaths = (async () => {
 			},
 			props: {
 				post,
-				postIndex: i+1,
+				postIndex: posts.length - i,
 				totalPosts: posts.length,
 				prevURL: prevURL,
 				nextURL: nextURL
@@ -70,20 +70,22 @@ const { post, postIndex, totalPosts, prevURL, nextURL } = Astro.props;
 ---
 
 <Base title={post.data.title}>
-	<main class="small contentBox">
-		<BlogPost post={post} />
-	</main>
-	<nav class="small">
-		<Show when={prevURL != null}>
-			<a class="prevButton contentBox" href={prevURL}>previous</a>
-		</Show>
-		
-		<span class="index contentBox">{postIndex} / {totalPosts}</span>
+	<div class="small">
+		<main class="contentBox">
+			<BlogPost post={post} />
+		</main>
+		<nav>
+			<Show when={prevURL != null}>
+				<a class="prevButton contentBox" href={prevURL}>&larr;</a>
+			</Show>
+			
+			<span class="index contentBox">{postIndex} / {totalPosts}</span>
 
-		<Show when={nextURL != null}>
-			<a class="nextButton contentBox" href={nextURL}>next</a>
-		</Show>
-	</nav>
+			<Show when={nextURL != null}>
+				<a class="nextButton contentBox" href={nextURL}>&rarr;</a>
+			</Show>
+		</nav>
+	</div>
 </Base>
 
 <style lang="scss">
@@ -91,7 +93,7 @@ const { post, postIndex, totalPosts, prevURL, nextURL } = Astro.props;
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		justify-content: space-between;
-		margin-top: calc((var(--void-gap) * 0.25));
+		margin-top: var(--inner-void-gap);
 	}
 	.prevButton, .nextButton {
 		padding: 1rem;

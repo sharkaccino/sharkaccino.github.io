@@ -11,70 +11,66 @@ const posts = await getCollection(`blog`);
 ---
 
 <Base title="blog">
-	<div class="options">
-		<input type="search" placeholder="search"/>
-		<select>
-			<option>newest first</option>
-			<option>oldest first</option>
-		</select>
-	</div>
+	<div class="wrapper large">
+		<aside class="contentBox">
+			<input type="search" placeholder="search"/>
+			<select>
+				<option>newest first</option>
+				<option>oldest first</option>
+			</select>
+		</aside>
 
-	<div class="postlist">
-		{posts.map((post: any) => {
-			const pubDate: Date = post.data.pubDate;
+		<main class="postlist contentBox">
+			{posts.map((post: any) => {
+				const pubDate: Date = post.data.pubDate;
 
-			const dc = getUTCDateComponents(pubDate);
+				const dc = getUTCDateComponents(pubDate);
 
-			const datepath = `${dc.year}/${dc.month}/${dc.day}`;
+				const datepath = `${dc.year}/${dc.month}/${dc.day}`;
 
-			const pubDateISO = post.data.pubDate.toISOString();
-			const pubDateSimple = getSimplifiedDate(post.data.pubDate);
+				const pubDateISO = post.data.pubDate.toISOString();
+				const pubDateSimple = getSimplifiedDate(post.data.pubDate);
 
-			let editDateISO;
-			let editDateSimple;
+				let editDateISO;
+				let editDateSimple;
 
-			if (post.data.updatedDate) {
-				editDateISO = post.data.updatedDate.toISOString();
-				editDateSimple = getSimplifiedDate(post.data.updatedDate);
-			}
+				if (post.data.updatedDate) {
+					editDateISO = post.data.updatedDate.toISOString();
+					editDateSimple = getSimplifiedDate(post.data.updatedDate);
+				}
 
-			return (
-				<a href={`/blog/${datepath}/${pubDate.getTime()}`}>
-					<article>
-						<Show when={post.data.image != null}>
-							<div class="featuredImage">
-								<img src={post.data.image} />
-							</div>
-						</Show>
-						<h2>{post.data.title}</h2>
-						<span>posted <time datetime={pubDateISO}>{pubDateSimple}</time></span>
-						<Show when={post.data.updatedDate != null}>
-							<span class="updated">
-								updated <time datetime={editDateISO}>{editDateSimple}</time>
-							</span>
-						</Show>
-					</article>
-				</a>
-			)
-		})}
+				return (
+					<a href={`/blog/${datepath}/${pubDate.getTime()}`}>
+						<article>
+							<Show when={post.data.image != null}>
+								<div class="featuredImage">
+									<img src={post.data.image} />
+								</div>
+							</Show>
+							<h2>{post.data.title}</h2>
+							<span>posted <time datetime={pubDateISO}>{pubDateSimple}</time></span>
+							<Show when={post.data.updatedDate != null}>
+								<span class="updated">
+									updated <time datetime={editDateISO}>{editDateSimple}</time>
+								</span>
+							</Show>
+						</article>
+					</a>
+				)
+			})}
+		</main>
 	</div>
 </Base>
 
 <style lang="scss">
-	$optsHeight: 12rem;
-
-	.options {
+	.wrapper {
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: $optsHeight;
-		background-color: var(--secondary-box-bg);
-		padding: var(--edge-pad);
-		box-sizing: border-box;
+		flex-direction: row;
+		gap: var(--inner-void-gap);
+	}
+
+	aside {
+		width: 20rem;
 	}
 
 	input[type="search"] {
@@ -83,14 +79,15 @@ const posts = await getCollection(`blog`);
 		background-color: var(--box-bg);
 		color: var(--text);
 		border: none;
-		width: 24rem;
 	}
 
 	.postlist {
 		display: flex;
+		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		margin-top: $optsHeight;
+		gap: 1rem;
+		flex: 1;
 	}
 
 	a {
