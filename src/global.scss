@@ -18,13 +18,13 @@
   --text: #232229;
   --trim: #922d5c;
 
+  --void-gap: 3rem;
   --edge-pad: 3rem;
 
   --footer-height: 20rem;
 
   --anim-timing: cubic-bezier(0,.65,.5,1);
 
-  --void-gap: 1rem;
   --default-content-width: 1200px;
   --content-width-medium: 1000px;
   --content-width-small: 800px;
@@ -41,8 +41,6 @@
   }
 }
 
-$shadow-offset: calc(var(--void-gap) / 3);
-
 body {
   display: flex;
   flex-direction: column;
@@ -55,6 +53,8 @@ body {
   background-size: cover;
   background-position: 50% 50%;
 }
+
+$shadow-offset: 0.6rem;
 
 header {
   box-shadow: 0 $shadow-offset 16px #00000099;
