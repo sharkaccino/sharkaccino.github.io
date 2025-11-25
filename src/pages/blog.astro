@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { Show } from "solid-js";
 import Base from '../Base.astro';
 import { getSimplifiedDate, getUTCDateComponents } from '../util/dateTools';
 
@@ -29,17 +30,29 @@ const posts = await getCollection(`blog`);
 			const pubDateISO = post.data.pubDate.toISOString();
 			const pubDateSimple = getSimplifiedDate(post.data.pubDate);
 
-			const editDateISO = post.data.updatedDate.toISOString();
-			const editDateSimple = getSimplifiedDate(post.data.updatedDate);
+			let editDateISO;
+			let editDateSimple;
+
+			if (post.data.updatedDate) {
+				editDateISO = post.data.updatedDate.toISOString();
+				editDateSimple = getSimplifiedDate(post.data.updatedDate);
+			}
 
 			return (
 				<a href={`/blog/${datepath}/${pubDate.getTime()}`}>
 					<article>
+						<Show when={post.data.image != null}>
+							<div class="featuredImage">
+								<img src={post.data.image} />
+							</div>
+						</Show>
 						<h2>{post.data.title}</h2>
 						<span>posted <time datetime={pubDateISO}>{pubDateSimple}</time></span>
-						{post.data.updatedDate && <span class="updated">
-							updated <time datetime={editDateISO}>{editDateSimple}</time>
-						</span>}
+						<Show when={post.data.updatedDate != null}>
+							<span class="updated">
+								updated <time datetime={editDateISO}>{editDateSimple}</time>
+							</span>
+						</Show>
 					</article>
 				</a>
 			)
@@ -85,13 +98,41 @@ const posts = await getCollection(`blog`);
 	}
 
 	article {
+		$gridPostPad: 1rem;
+		position: relative;
 		background-color: var(--trim);
 		color: var(--box-bg);
 		display: flex;
 		flex-direction: column;
 		aspect-ratio: 1.5 / 1;
 		width: 16rem;
-		padding: 1rem;
+		padding: $gridPostPad;
+
+		.featuredImage {
+			position: absolute;
+			width: 100%;
+			height: 75%;
+			margin: calc($gridPostPad * -1);
+			margin-bottom: 2rem;
+			background-color: var(--trim);
+			mask-image: linear-gradient(to bottom, #888, black);
+			mask-mode: luminance;
+			mask-size: cover;;
+
+			img {
+				object-fit: cover;
+				width: 100%;
+				height: 100%;
+				filter: saturate(0);
+				mix-blend-mode: multiply;
+			}
+		}
+
+		// reordering elements doesnt change z-index 
+		// for some reason so i have to do this
+		:not(.featuredImage) {
+			z-index: 1;
+		}
 
 		h2 {
 			text-decoration-line: underline;

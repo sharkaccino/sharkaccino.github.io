@@ -1,6 +1,7 @@
 ---
 import { type GetStaticPaths } from "astro";
 import { getCollection, render } from 'astro:content';
+import { Show } from "solid-js";
 import Base from '../../../../../Base.astro';
 import { getSimplifiedDate, getUTCDateComponents } from '../../../../../util/dateTools';
 
@@ -42,18 +43,30 @@ const { Content } = await render(post);
 const pubDateISO = post.data.pubDate.toISOString();
 const pubDateSimple = getSimplifiedDate(post.data.pubDate);
 
-const editDateISO = post.data.updatedDate.toISOString();
-const editDateSimple = getSimplifiedDate(post.data.updatedDate);
+let editDateISO;
+let editDateSimple;
+
+if (post.data.updatedDate) {
+	editDateISO = post.data.updatedDate.toISOString();
+	editDateSimple = getSimplifiedDate(post.data.updatedDate);
+}
 
 ---
 
 <Base title={post.data.title} width="small">
+	<Show when={post.data.image != null}>
+		<div class="featuredImage">
+			<img src={post.data.image} />
+		</div>
+	</Show>
 	<h1>{post.data.title}</h1>
 	<div class="timestampBlock">
 		<span><time datetime={pubDateISO}>{pubDateSimple}</time></span>
-		{post.data.updatedDate && <span class="updated">
-			updated: <time datetime={editDateISO}>{editDateSimple}</time>
-		</span>}
+		<Show when={post.data.updatedDate != null}>
+			<span class="updated">
+				updated: <time datetime={editDateISO}>{editDateSimple}</time>
+			</span>
+		</Show>
 	</div>
 	<div class="contentWrapper">
 		<Content />
@@ -70,6 +83,25 @@ const editDateSimple = getSimplifiedDate(post.data.updatedDate);
 </Base>
 
 <style lang="scss">
+	.featuredImage {
+		width: calc(100% + (var(--edge-pad) * 2));
+		height: 16rem;
+		margin: calc(var(--edge-pad) * -1);
+		margin-bottom: 2rem;
+		background-color: var(--trim);
+		mask-image: linear-gradient(to bottom, #aaa, black);
+		mask-mode: luminance;
+		mask-size: cover;
+
+		img {
+			object-fit: cover;
+			width: 100%;
+			height: 100%;
+			filter: saturate(0);
+			mix-blend-mode: multiply;
+		}
+	}
+
 	h1 {
 		width: 100%;
 		margin: 0;
