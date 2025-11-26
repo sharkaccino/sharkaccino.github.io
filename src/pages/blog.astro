@@ -239,6 +239,10 @@ taglist.sort((a, b) => b.count - a.count);
 		.sortMode {
 			user-select: none;
 
+			&:has(select:disabled) {
+				opacity: 0.33;
+			}
+
 			label {
 				position: relative;
 				display: flex;
