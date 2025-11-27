@@ -3,13 +3,16 @@ import { createSignal } from "solid-js";
 export type PostData = {
   id: string;
   body: string;
+  collection: `blog`;
   data: {
     title: string;
     imageUrl?: string;
     pubDate: Date;
     editDate?: Date;
-    tags: string[];
-  }
+    tags?: string[];
+  };
+  rendered?: any;
+  filepath?: string;
 }
 
 export const query = createSignal(``);
