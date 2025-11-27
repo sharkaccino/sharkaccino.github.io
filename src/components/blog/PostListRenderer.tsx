@@ -4,6 +4,7 @@ import { getUTCDateComponents } from '../../util/dateTools';
 import GridArticle from "./GridArticle";
 import { viewMode, sortMode, query, type PostData } from "../../state/blogPostListSharedData";
 import style from "./PostListRenderer.module.scss";
+import { RandomStringinator } from "../../util/randomString";
 
 // TODO: list and dashboard view modes
 
@@ -14,6 +15,18 @@ const PostList: Component<{ postData: any }> = (props) => {
   const [ getPosts, setPosts ] = createSignal(props.postData);
 
   const exactrgx = /"(.+?)"/g
+
+  const noResultStrings = [
+    `no results found`,
+    `behold, nothing`,
+    `wow it's nothing`,
+    `sadly, it's empty`,
+    `i ate those posts, sorry`,
+    `no posts to be found here`,
+    `nothing but dust here`
+  ];
+
+  const stringinator = new RandomStringinator(noResultStrings);
 
   const refreshResults = () => {
     let updatedPosts = [...props.postData] as PostData[];
@@ -102,6 +115,7 @@ const PostList: Component<{ postData: any }> = (props) => {
 
   createEffect(() => {
     refreshResults();
+    stringinator.refresh();
   });
 
   refreshResults();
@@ -132,7 +146,7 @@ const PostList: Component<{ postData: any }> = (props) => {
         </For>
       </Show>
       <Show when={getPosts().length === 0}>
-        <h2>no results found!</h2>
+        <h2>{stringinator.getCurrentString()}</h2>
       </Show>
     </main>
   )

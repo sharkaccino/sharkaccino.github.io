@@ -1,8 +1,7 @@
-import { type Component, createSignal } from "solid-js";
+import { type Component } from "solid-js";
+import { RandomStringinator } from "../util/randomString";
 
 const FlavorText: Component = () => {
-  const [flavorTextString, setFlavorTextString] = createSignal(``);
-
   const stringOpts = [
     `one of the websites of all time`,
     `windows? more like winBLOWS haha lol`,
@@ -80,27 +79,13 @@ const FlavorText: Component = () => {
     `NO WAY`
   ];
 
-  const pickFlavorText = () => {
-    let randomIndex = Math.floor(Math.random() * stringOpts.length);
-
-    // ensure we don't pick the same string again
-    if (stringOpts[randomIndex] === flavorTextString()) {
-      randomIndex += 1;
-      if (randomIndex === stringOpts.length) {
-        randomIndex = 0;
-      }
-    }
-
-    setFlavorTextString(stringOpts[randomIndex]);
-  }
-
-  pickFlavorText();
+  const stringinator = new RandomStringinator(stringOpts);
 
   return (
     <a 
       href="javascript:void(0)" 
-      onclick={pickFlavorText}
-    >{flavorTextString()}</a>
+      onclick={stringinator.refresh}
+    >{stringinator.getCurrentString()}</a>
   )
 }
 

@@ -1,4 +1,5 @@
 import { type Component } from "solid-js";
+import { RandomStringinator } from "../util/randomString";
 
 const NotFoundText: Component = () => {
   const stringOpts = [
@@ -13,12 +14,10 @@ const NotFoundText: Component = () => {
     `"aaaand it's gone"`
   ];
 
-  const getRandomString = (): string => {
-    return stringOpts[Math.floor(Math.random() * stringOpts.length)];
-  }
+  const stringinator = new RandomStringinator(stringOpts);
 
   return (
-    <span>{getRandomString()}</span>
+    <span>{stringinator.getCurrentString()}</span>
   )
 }
 
