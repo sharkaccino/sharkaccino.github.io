@@ -8,6 +8,8 @@ import { RandomStringinator } from "../../util/randomString";
 
 // TODO: list and dashboard view modes
 
+// TODO: move search/filter algorithm to it's own file
+
 const PostList: Component<{ postData: any }> = (props) => {
   const [ getQuery, setQuery ] = query;
   const [ getSortMode, setSortMode ] = sortMode;
@@ -28,6 +30,8 @@ const PostList: Component<{ postData: any }> = (props) => {
 
   const stringinator = new RandomStringinator(noResultStrings);
 
+  // TODO: support for keywords, i.e tag:<query>
+  // exactrgx needs to be adjusted to compensate!!!
   const refreshResults = () => {
     let updatedPosts = [...props.postData] as PostData[];
 

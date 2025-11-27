@@ -3,6 +3,8 @@ import { query } from "../../state/blogPostListSharedData";
 import SVGIcon from "../SVGIcon";
 import style from "./SearchBar.module.scss";
 
+// TODO: ability to input search queries via url parameters (needed for tags)
+
 const SortMode: Component = () => {
   const [ getQuery, setQuery ] = query;
 
