@@ -2,10 +2,11 @@
 import { render } from 'astro:content';
 import { Show } from "solid-js";
 import { getSimplifiedDate } from '../../util/dateTools';
+import { type PostData } from '../../state/blogPostListSharedData';
 
 // TODO: fix image height on smaller displays
 
-const { post } = Astro.props;
+const { post }: Record<string, PostData> = Astro.props;
 const { Content } = await render(post);
 
 const pubDateISO = post.data.pubDate.toISOString();
@@ -14,22 +15,22 @@ const pubDateSimple = getSimplifiedDate(post.data.pubDate);
 let editDateISO;
 let editDateSimple;
 
-if (post.data.updatedDate) {
-	editDateISO = post.data.updatedDate.toISOString();
-	editDateSimple = getSimplifiedDate(post.data.updatedDate);
+if (post.data.editDate) {
+	editDateISO = post.data.editDate.toISOString();
+	editDateSimple = getSimplifiedDate(post.data.editDate);
 }
 
 ---
 
-<Show when={post.data.image != null}>
+<Show when={post.data.imageUrl != null}>
 	<div class="featuredImage">
-		<img src={post.data.image} />
+		<img src={post.data.imageUrl} />
 	</div>
 </Show>
 <h1>{post.data.title}</h1>
 <div class="timestampBlock">
 	<span><time datetime={pubDateISO}>{pubDateSimple}</time></span>
-	<Show when={post.data.updatedDate != null}>
+	<Show when={post.data.editDate != null}>
 		<span class="updated">
 			updated: <time datetime={editDateISO}>{editDateSimple}</time>
 		</span>
@@ -42,11 +43,13 @@ if (post.data.updatedDate) {
 		<span>...or this post just has no contents, for some reason.</span>
 	</div>
 </div>
-<ul class="tags">
-	{post.data.tags.map((tag: string) => (
-		<li>#<span>{tag}</span></li>
-	))}
-</ul>
+<Show when={post.data.tags != null}>
+	<ul class="tags">
+		{post.data.tags && post.data.tags.map((tag: string) => (
+			<li>#<span>{tag}</span></li>
+		))}
+	</ul>
+</Show>
 
 <style lang="scss">
 	.featuredImage {
@@ -75,7 +78,7 @@ if (post.data.updatedDate) {
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
-		margin-top: 0.5rem;
+		margin-top: 0.75rem;
 
 		.updated {
 			opacity: 0.5;

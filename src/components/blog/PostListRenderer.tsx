@@ -15,23 +15,37 @@ const PostList: Component<{ postData: any }> = (props) => {
 
   const exactrgx = /"(.+?)"/g
 
-  createEffect(() => {
+  const refreshResults = () => {
     let updatedPosts = [...props.postData] as PostData[];
 
     const query = getQuery();
     let comparisonData: any = {};
 
     if (query.length > 0) {
+      const acquireTargets = (post: PostData) => {
+        const output = [
+          post.body, 
+          post.data.title,
+          post.data.pubDate.toUTCString()
+        ];
+
+        if (post.data.editDate) {
+          output.push(post.data.editDate.toUTCString());
+        }
+
+        if (post.data.tags) {
+          output.push(...post.data.tags);
+        }
+
+        return output;
+      };
+
       // filter posts for exact string matching
       for (const match of [...query.matchAll(exactrgx)]) {
         const extractedString = match[1];
 
         updatedPosts = updatedPosts.filter((post) => {
-          const targets = [
-            post.body, 
-            post.data.title, 
-            ...post.data.tags
-          ];
+          const targets = acquireTargets(post);
 
           for (const str of targets) {
             if (str.includes(extractedString)) return true;
@@ -43,10 +57,7 @@ const PostList: Component<{ postData: any }> = (props) => {
       for (const post of updatedPosts) {
         let match = 0;
         
-        const targets = [
-          post.body, 
-          post.data.title
-        ];
+        const targets = acquireTargets(post);
 
         for (const target of targets) {
           const result = compare.diceCoefficient.similarity(query, target);
@@ -87,7 +98,13 @@ const PostList: Component<{ postData: any }> = (props) => {
     }
 
     setPosts(updatedPosts);
-  })
+  }
+
+  createEffect(() => {
+    refreshResults();
+  });
+
+  refreshResults();
 
   return (
     <main 
