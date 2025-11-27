@@ -68,19 +68,19 @@ body {
 }
 
 .large, .medium, .small {
-  width: calc(100vw - (var(--outer-void-gap) * 2) - (var(--edge-pad) * 2));
+  width: calc((100vw - (var(--outer-void-gap) * 2)));
 }
 
 .large {
-  max-width: calc(var(--content-width-large) - (var(--edge-pad) * 2));
+  max-width: var(--content-width-large);
 }
 
 .medium {
-  max-width: calc(var(--content-width-medium) - (var(--edge-pad) * 2));
+  max-width: var(--content-width-medium);
 }
 
 .small {
-  max-width: calc(var(--content-width-small) - (var(--edge-pad) * 2));
+  max-width: var(--content-width-small);
 }
 
 main {

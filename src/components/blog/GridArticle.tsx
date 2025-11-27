@@ -25,9 +25,9 @@ const GridArticle: Component<{ postUrl: string, postData: PostData }> = (props) 
       const h2Rect = h2.getBoundingClientRect();
 
       if (h2Rect.height > wrapperRect.height) {
-        titleWrapper.classList.add(`overflowing`);
+        titleWrapper.classList.add(style.overflowing);
       } else {
-        titleWrapper.classList.remove(`overflowing`);
+        titleWrapper.classList.remove(style.overflowing);
       }
     }
 

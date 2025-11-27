@@ -1,6 +1,6 @@
 .gridArticle {
-	aspect-ratio: 1.5 / 1;
-	width: 100%;
+	aspect-ratio: 1.5;
+	height: auto;
 	text-decoration-color: transparent;
 
   article {
@@ -12,6 +12,7 @@
   	flex-direction: column;
   	height: 100%;
   	padding: $gridPostPad;
+		box-sizing: border-box;
 
   	.featuredImage {
   		position: absolute;

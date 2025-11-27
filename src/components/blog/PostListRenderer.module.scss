@@ -1,8 +1,30 @@
 .gridView {
-	display: grid;
-	grid-column: 2;
-	grid-template-columns: repeat(5, 1fr);
+	$columns: 5;
+
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 	gap: var(--inner-void-gap);
 	width: 100%;
 	padding: calc(var(--edge-pad) / 2);
+
+	&:before, > * {
+		flex-basis: calc(((100% - (var(--inner-void-gap) * ($columns - 1))) / $columns));
+	}
+
+	&:before {
+		content: "";
+		display: block;
+		aspect-ratio: 1.5;
+		height: auto;
+		margin-right: calc((((100% - (var(--inner-void-gap) * ($columns - 1))) / $columns) + var(--inner-void-gap)) * -1);
+	}
+
+	> h2 {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		opacity: 0.5;
+	}
 }
