@@ -1,0 +1,8 @@
+.gridView {
+	display: grid;
+	grid-column: 2;
+	grid-template-columns: repeat(5, 1fr);
+	gap: var(--inner-void-gap);
+	width: 100%;
+	padding: calc(var(--edge-pad) / 2);
+}

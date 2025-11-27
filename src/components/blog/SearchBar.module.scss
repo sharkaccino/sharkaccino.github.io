@@ -1,0 +1,25 @@
+.searchBar {
+	width: 100%;
+	max-width: 20rem;
+	position: relative;
+
+	input[type="search"] {
+		width: 100%;
+		background-color: var(--secondary-box-bg);
+		color: var(--text);
+		padding: 0.5rem 0.75rem;
+		padding-right: calc(24px + (0.5rem) * 2);
+		font-size: 1rem;
+		border: none;
+	}
+
+	.searchIcon {
+		position: absolute;
+		top: 50%;
+		right: 0;
+		margin-right: 0.5rem;
+		transform: translateY(-50%);
+		opacity: 0.5;
+		pointer-events: none;
+	}
+}

@@ -1,6 +1,6 @@
 ---
 title: "loooooooooooooooooooooooooooooooooooooooooooooooooooong post titleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-image: "/gallery/avatars/jackie-2025.png"
+imageUrl: "/gallery/avatars/jackie-2025.png"
 pubDate: "2025-11-24 11:15"
 tags: [ "h" ]
 ---

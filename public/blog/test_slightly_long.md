@@ -1,6 +1,6 @@
 ---
 title: "ever so slightly loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong post title"
-image: "/gallery/avatars/jackie-2025.png"
+imageUrl: "/gallery/avatars/jackie-2025.png"
 pubDate: "2025-11-24 20:15"
 tags: [ "h" ]
 ---

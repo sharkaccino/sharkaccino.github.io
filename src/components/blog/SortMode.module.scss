@@ -1,0 +1,35 @@
+.sortMode {
+	user-select: none;
+
+	label {
+		position: relative;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		gap: var(--inner-void-gap);
+
+		span {
+			width: max-content;
+		}
+
+		select {
+			background-color: var(--secondary-box-bg);
+			color: currentColor;
+			padding: 0.5rem 0.75rem;
+			font-size: 1rem;
+			border: none;
+			appearance: none;
+			padding-right: calc(24px + (0.5rem * 2));
+		}
+
+		.arrow {
+			position: absolute;
+			top: 50%;
+			right: 0;
+			margin-right: 0.5rem;
+			transform: translateY(-50%);
+			opacity: 0.5;
+			pointer-events: none;
+		}
+	}
+}

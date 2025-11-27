@@ -1,8 +1,8 @@
 ---
 title: "test post please do not open"
-image: "/gallery/avatars/jackie-2025.png"
+imageUrl: "/gallery/avatars/jackie-2025.png"
 pubDate: 1763797375743
-updatedDate: 1763797375743
+editDate: 1763797375743
 tags: [ "tag1", "tag2", "tag3", "wow a tag", "it's a tag", "and this... is a tag", "this, however, is a tag", "surprisingly, it's a tag", "tag...", "behold! a tag.", "alright how about this", "ok im already running out of ideas for filler text", "blah", "blah blah", "blah blah blah", "asdfghjkl", "warargharahgbgagglgbhghbglghghlg" ]
 ---
 
