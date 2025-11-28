@@ -1,0 +1,31 @@
+.viewModes {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--inner-void-gap);
+	margin-left: auto;
+
+	label {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: var(--secondary-box-bg);
+		width: auto;
+		height: 100%;
+		aspect-ratio: 1;
+
+		&:has(input:checked) {
+			background-color: var(--trim);
+			color: var(--box-bg);
+		}
+	}
+
+	input {
+		appearance: none;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+	}
+}

@@ -1,12 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../Base.astro';
-import SVGIcon from '../components/SVGIcon';
 import PostList from '../components/blog/PostListRenderer';
 import SortMode from '../components/blog/SortMode';
 import SearchBar from '../components/blog/SearchBar';
+import ViewModes from '../components/blog/ViewMode';
 
-// TODO: viewmodes tsx component
 // TODO: mobile support
 
 const posts = await getCollection(`blog`);
@@ -18,20 +17,7 @@ const posts = await getCollection(`blog`);
 		<aside class="contentBox">
 			<SearchBar client:load />
 			<SortMode client:load />
-			<div class="viewModes">
-				<label>
-					<SVGIcon src="/icons/layout-grid.svg" />
-					<input type="radio" name="viewMode" autocomplete="off" />
-				</label>
-				<label>
-					<SVGIcon src="/icons/layout-list.svg" />
-					<input type="radio" name="viewMode" autocomplete="off" checked />
-				</label>
-				<label>
-					<SVGIcon src="/icons/layout-dashboard.svg" />
-					<input type="radio" name="viewMode" autocomplete="off" />
-				</label>
-			</div>
+			<ViewModes client:load />
 		</aside>
 
 		<PostList postData={posts} client:load />
@@ -46,39 +32,10 @@ const posts = await getCollection(`blog`);
 		gap: var(--inner-void-gap);
 	}
 
-	$ud-pad: 0.5rem;
-
 	aside {
 		display: flex;
 		gap: var(--inner-void-gap);
 		width: 100%;
 		padding: calc(var(--edge-pad) / 2);
-
-		.viewModes {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: var(--inner-void-gap);
-			margin-left: auto;
-
-			label {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				background-color: var(--secondary-box-bg);
-				width: auto;
-				height: 100%;
-				aspect-ratio: 1;
-
-				&:has(input:checked) {
-					background-color: var(--trim);
-					color: var(--box-bg);
-				}
-			}
-
-			input {
-				display: none;
-			}
-		}
 	}
 </style>
