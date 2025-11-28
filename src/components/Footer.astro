@@ -2,6 +2,7 @@
 import { readFile } from 'node:fs/promises';
 import FlavorText from './FlavorText';
 import RelativeBuildTime from './RelativeBuildTime';
+import SVGIcon from './SVGIcon';
 
 const buildTimeRaw = await readFile(`./public/metadata/buildTime.txt`, { encoding: 'utf-8'});
 const revHash = await readFile(`./public/metadata/revHash.txt`, { encoding: 'utf-8'});
@@ -11,7 +12,11 @@ const buildTime = new Date(parseInt(buildTimeRaw));
 ---
 
 <footer>
-  <a href="#">back to top</a>
+  <a href="#">
+    <SVGIcon src="/icons/chevron-up.svg" />
+    <span>back to top</span>
+    <SVGIcon src="/icons/chevron-up.svg" />
+  </a>
   <div class="orientationFlipper">
     <div class="copyrightBlock">
       <img src="/favicon.svg" />
@@ -57,8 +62,12 @@ const buildTime = new Date(parseInt(buildTimeRaw));
     max-height: var(--footer-height);
 
     > a {
-      background-color: var(--footer-text);
-      color: var(--footer-bg);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.75rem;
+      background-color: var(--trim);
+      color: var(--box-bg);
       padding: 0.75rem 1rem;
     }
 
