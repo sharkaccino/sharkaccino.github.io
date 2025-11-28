@@ -1,13 +1,19 @@
 @font-face {
-  font-family: "CoreSans";
-  font-weight: normal;
-  src: url("/coresans55.ttf") format("opentype")
+  font-family: "Hyperlegible";
+  font-weight: light;
+  src: url("/AtkinsonHyperlegibleNext-Light.ttf") format("truetype")
 }
 
 @font-face {
-  font-family: "CoreSans";
+  font-family: "Hyperlegible";
+  font-weight: normal;
+  src: url("/AtkinsonHyperlegibleNext-Medium.ttf") format("truetype")
+}
+
+@font-face {
+  font-family: "Hyperlegible";
   font-weight: bold;
-  src: url("/coresans75.ttf") format("opentype")
+  src: url("/AtkinsonHyperlegibleNext-Bold.ttf") format("truetype")
 }
 
 :root {
@@ -31,7 +37,7 @@
   --content-width-medium: 1200px;
   --content-width-small: 800px;
 
-  font-family: "CoreSans", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Hyperlegible", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text);
 }
 
