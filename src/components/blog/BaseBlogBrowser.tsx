@@ -1,16 +1,21 @@
 import { type Component, createEffect, createSignal, For, Show } from "solid-js";
 import compare from 'string-comparison';
 import { getUTCDateComponents } from '../../util/dateTools';
-import GridArticle from "./GridArticle";
-import { viewMode, sortMode, query, type PostData } from "../../state/blogPostListSharedData";
-import style from "./PostListRenderer.module.scss";
 import { RandomStringinator } from "../../util/randomString";
+import { viewMode, sortMode, query, type PostData } from "../../state/blogPostListSharedData";
+import SearchBar from "./SearchBar";
+import SortMode from "./SortMode";
+import ViewMode from "./ViewMode";
+import GridArticle from "./GridArticle";
+import style from "./BaseBlogBrowser.module.scss";
 
 // TODO: list and dashboard view modes
 
+// TODO: mobile support
+
 // TODO: move search/filter algorithm to it's own file
 
-const PostList: Component<{ postData: any }> = (props) => {
+const BlogBrowser: Component<{ postData: any }> = (props) => {
   const [ getQuery, setQuery ] = query;
   const [ getSortMode, setSortMode ] = sortMode;
   const [ getViewMode, setViewMode ] = viewMode;
@@ -125,35 +130,50 @@ const PostList: Component<{ postData: any }> = (props) => {
   refreshResults();
 
   return (
-    <main 
+    <div
       classList={{ 
-        [style.gridView]: getViewMode() == `grid`,
-        [style.listView]: getViewMode() == `list`,
-        [style.dashView]: getViewMode() == `dash`
-      }}
-      class="contentBox"
+        "large": getViewMode() == `grid`,
+        "medium": getViewMode() == `list`,
+        "small": getViewMode() == `dash`
+      }} 
+      class={style.browser}
     >
-      <Show when={getViewMode() == `grid`}>
-        <For each={getPosts()}>
-          {(post) => {
-            const dc = getUTCDateComponents(post.data.pubDate);
-  				  const datepath = `${dc.year}/${dc.month}/${dc.day}`;
-            const postUrl = `/blog/${datepath}/${post.data.pubDate.getTime()}`;
+  		<aside class="contentBox">
+  			<SearchBar/>
+  			<SortMode/>
+  			<ViewMode/>
+  		</aside>
 
-            return (
-              <GridArticle 
-                postUrl={postUrl}
-                postData={post}
-              />
-            )
-          }}
-        </For>
-      </Show>
-      <Show when={getPosts().length === 0}>
-        <h2>{stringinator.getCurrentString()}</h2>
-      </Show>
-    </main>
+      <main 
+        classList={{ 
+          [style.gridView]: getViewMode() == `grid`,
+          [style.listView]: getViewMode() == `list`,
+          [style.dashView]: getViewMode() == `dash`
+        }}
+        class="contentBox"
+      >
+        <Show when={getViewMode() == `grid`}>
+          <For each={getPosts()}>
+            {(post) => {
+              const dc = getUTCDateComponents(post.data.pubDate);
+    				  const datepath = `${dc.year}/${dc.month}/${dc.day}`;
+              const postUrl = `/blog/${datepath}/${post.data.pubDate.getTime()}`;
+
+              return (
+                <GridArticle 
+                  postUrl={postUrl}
+                  postData={post}
+                />
+              )
+            }}
+          </For>
+        </Show>
+        <Show when={getPosts().length === 0}>
+          <h2>{stringinator.getCurrentString()}</h2>
+        </Show>
+      </main>
+  	</div>
   )
 }
 
-export default PostList;
+export default BlogBrowser;

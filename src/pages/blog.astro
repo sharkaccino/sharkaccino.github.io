@@ -1,41 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../Base.astro';
-import PostList from '../components/blog/PostListRenderer';
-import SortMode from '../components/blog/SortMode';
-import SearchBar from '../components/blog/SearchBar';
-import ViewModes from '../components/blog/ViewMode';
-
-// TODO: mobile support
+import BlogBrowser from '../components/blog/BaseBlogBrowser';
 
 const posts = await getCollection(`blog`);
 
 ---
 
 <Base title="blog">
-	<div class="wrapper large">
-		<aside class="contentBox">
-			<SearchBar client:load />
-			<SortMode client:load />
-			<ViewModes client:load />
-		</aside>
-
-		<PostList postData={posts} client:load />
-	</div>
+	<BlogBrowser postData={posts} client:load />
 </Base>
-
-<style lang="scss">
-	.wrapper {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: var(--inner-void-gap);
-	}
-
-	aside {
-		display: flex;
-		gap: var(--inner-void-gap);
-		width: 100%;
-		padding: calc(var(--edge-pad) / 2);
-	}
-</style>
