@@ -8,8 +8,8 @@ import SortMode from "./SortMode";
 import ViewMode from "./ViewMode";
 import GridArticle from "./GridArticle";
 import ListArticle from "./ListArticle";
-import style from "./BaseBlogBrowser.module.scss";
 import BlogPost from "./BlogPost";
+import style from "./BaseBlogBrowser.module.scss";
 
 // TODO: mobile support
 
@@ -17,7 +17,7 @@ import BlogPost from "./BlogPost";
 
 // TODO: reduce grid columns on smaller displays
 
-const BlogBrowser: Component<{ postData: any }> = (props) => {
+const BlogBrowser: Component<{ postData: PostData[] }> = (props) => {
   const [ getSearchState, setSearchState ] = searchState;
   const [ getSearchDelayActive, setSearchDelayActive ] = searchDelayActive;
   const [ getQuery, setQuery ] = query;

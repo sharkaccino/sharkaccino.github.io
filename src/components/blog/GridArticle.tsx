@@ -46,8 +46,8 @@ const GridArticle: Component<{ postData: PostData }> = (props) => {
       <article>
         <Show when={post.data.imageUrl != null}>
           <div class={style.featuredImage}>
-            <img class={style.hover} src={post.data.imageUrl} />
-            <img src={post.data.imageUrl} />
+            <img class={style.hover} src={post.data.imageUrl} loading="lazy" />
+            <img src={post.data.imageUrl} loading="lazy" />
           </div>
         </Show>
         <div ref={titleWrapper} class={style.titleWrapper}>

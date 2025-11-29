@@ -29,7 +29,7 @@ const ListArticle: Component<{ postData: PostData }> = (props) => {
           </span>
         </Show>
         <Show when={post.data.imageUrl != null}>
-          <img src={post.data.imageUrl} />
+          <img src={post.data.imageUrl} loading="lazy" />
         </Show>
       </article>
     </a>

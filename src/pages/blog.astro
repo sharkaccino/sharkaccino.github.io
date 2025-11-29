@@ -5,6 +5,21 @@ import BlogBrowser from '../components/blog/BaseBlogBrowser';
 
 const posts = await getCollection(`blog`);
 
+for (const i in posts) {
+	// we're only using the rendered output of each post.
+	// we can pretty safely toss the raw data
+	posts[i].body = ``;
+
+	// this optimization probably won't be very effective 
+	// until there's a few hundred or even >1k posts, 
+	// depending on the length of each one.
+
+	// for reference, i tested this using a lil over 1,600 
+	// posts, each a rather modest size of about 2,500 
+	// characters. under these conditions, the bundle size 
+	// of this single page went from 13.7 MB to 9.5 MB.
+}
+
 ---
 
 <Base title="blog">

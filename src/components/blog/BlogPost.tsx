@@ -25,7 +25,7 @@ const BlogPost: Component<{ postData: PostData }> = (props) => {
     <div class={`${style.post} contentBox`}>
       <Show when={post.data.imageUrl != null}>
       	<div class={style.featuredImage}>
-      		<img src={post.data.imageUrl} />
+      		<img src={post.data.imageUrl} loading="lazy"/>
       	</div>
       </Show>
       <a href={postUrl}>
