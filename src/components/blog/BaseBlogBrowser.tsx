@@ -25,7 +25,8 @@ const BlogBrowser: Component<{ postData: any }> = (props) => {
   const [ getViewMode, setViewMode ] = viewMode;
   const [ getPosts, setPosts ] = createSignal(props.postData);
 
-  const exactrgx = /"(.+?)"/g
+  const exactrgx = /(?<!\w:)"(.+?)"/g
+  const keywordrgx = /(\w+?):"(.+?)"/g
 
   const noResultStrings = [
     `no results found`,
@@ -39,8 +40,27 @@ const BlogBrowser: Component<{ postData: any }> = (props) => {
 
   const stringinator = new RandomStringinator(noResultStrings);
 
-  // TODO: support for keywords, i.e tag:<query>
-  // exactrgx needs to be adjusted to compensate!!!
+  const acquireTargets = (post: PostData) => {
+    const output = [
+      post.data.title,
+      post.data.pubDate.toUTCString()
+    ];
+
+    if (post.body) {
+      output.push(post.body);
+    }
+
+    if (post.data.editDate) {
+      output.push(post.data.editDate.toUTCString());
+    }
+
+    if (post.data.tags) {
+      output.push(...post.data.tags);
+    }
+
+    return output;
+  };
+
   const refreshResults = () => {
     let updatedPosts = [...props.postData] as PostData[];
 
@@ -48,27 +68,6 @@ const BlogBrowser: Component<{ postData: any }> = (props) => {
     let comparisonData: any = {};
 
     if (query.length > 0) {
-      const acquireTargets = (post: PostData) => {
-        const output = [
-          post.data.title,
-          post.data.pubDate.toUTCString()
-        ];
-
-        if (post.body) {
-          output.push(post.body);
-        }
-
-        if (post.data.editDate) {
-          output.push(post.data.editDate.toUTCString());
-        }
-
-        if (post.data.tags) {
-          output.push(...post.data.tags);
-        }
-
-        return output;
-      };
-
       // filter posts for exact string matching
       for (const match of [...query.matchAll(exactrgx)]) {
         const extractedString = match[1];
@@ -80,6 +79,24 @@ const BlogBrowser: Component<{ postData: any }> = (props) => {
             if (str.includes(extractedString)) return true;
           }
         });
+      }
+
+      // filter posts for keywords
+      for (const match of [...query.matchAll(keywordrgx)]) {
+        const keyword = match[1].toLowerCase();
+        const value = match[2].toLowerCase();
+
+        if ([`tag`, `tagged`, `tags`].includes(keyword)) {
+          updatedPosts = updatedPosts.filter((post) => {
+            if (post.data.tags == null) return false;
+
+            for (const tag of post.data.tags) {
+              if (tag.toLowerCase() === value) return true;
+            }
+
+            return false;
+          });
+        }
       }
 
       // compile fuzzy match data
@@ -101,7 +118,7 @@ const BlogBrowser: Component<{ postData: any }> = (props) => {
         return (comparisonData[post.id] > 0.005) 
       });
 
-      console.debug(comparisonData);
+      // console.debug(comparisonData);
     }
 
     switch (getSortMode()) {

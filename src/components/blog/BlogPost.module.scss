@@ -75,10 +75,13 @@
   		display: inline-flex;
   		max-width: 100%;
 
-  		span {
-  			width: 100%;
-  			word-wrap: break-word;
-  		}
+			a {
+				color: var(--text);
+
+				span {
+	  			word-wrap: break-word;
+	  		}
+			}
   	}
   }
 }

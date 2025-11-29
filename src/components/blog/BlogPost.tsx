@@ -54,9 +54,17 @@ const BlogPost: Component<{ postData: PostData }> = (props) => {
       <Show when={post.data.tags != null}>
       	<ul class={style.tags}>
           <For each={post.data.tags}>
-            {(tag: string) => (
-        			<li>#<span>{tag}</span></li>
-        		)}
+            {(tag: string) => {
+              const tagUrl = `/blog?search=${encodeURIComponent(`tag:"${tag}"`)}`;
+
+              return (
+                <li>
+                  <a href={tagUrl}>
+                    <span>#{tag}</span>
+                  </a>
+                </li>
+              )
+            }}
           </For>
       	</ul>
       </Show>
