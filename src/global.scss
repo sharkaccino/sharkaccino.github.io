@@ -61,9 +61,6 @@ body {
   gap: var(--outer-void-gap);
   min-height: calc(100vh + var(--footer-height));
   margin: 0;
-  background-image: url('/wallpaper.svg');
-  background-size: cover;
-  background-position: 50% 50%;
   color: var(--text);
 
   * {
@@ -73,6 +70,18 @@ body {
       outline: 2px solid var(--trim);
       outline-offset: 2px;
     }
+  }
+
+  &:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/wallpaper.svg');
+    background-size: cover;
+    background-position: 50% 50%;
   }
 }
 
