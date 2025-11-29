@@ -21,15 +21,13 @@ const ListArticle: Component<{ postData: PostData }> = (props) => {
   return (
     <a class={`${style.listArticle} contentBox`} href={postUrl} title={post.data.title}>
       <article>
-        <div>
-          <h2>{post.data.title}</h2>
-          <span>posted <time datetime={pubDateISO}>{pubDateSimple}</time></span>
-          <Show when={post.data.editDate != null}>
-            <span class={style.updated}>
-              updated <time datetime={editDateISO}>{editDateSimple}</time>
-            </span>
-          </Show>
-        </div>
+        <h2>{post.data.title}</h2>
+        <span>posted <time datetime={pubDateISO}>{pubDateSimple}</time></span>
+        <Show when={post.data.editDate != null}>
+          <span class={style.updated}>
+            updated <time datetime={editDateISO}>{editDateSimple}</time>
+          </span>
+        </Show>
         <Show when={post.data.imageUrl != null}>
           <img src={post.data.imageUrl} />
         </Show>

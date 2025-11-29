@@ -17,38 +17,38 @@
 
 	article {
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		height: 100%;
+		width: 50%;
 		gap: 1rem;
 
-		div {
-			display: flex;
-			flex-direction: column;
+		h2 {
+			text-decoration-line: underline;
+			text-decoration-color: transparent;
+			overflow: hidden;
+			overflow-wrap: anywhere;
+			margin: 0;
 			flex: 1;
+		}
 
-			h2 {
-				text-decoration-line: underline;
-				text-decoration-color: transparent;
-				overflow: hidden;
-				overflow-wrap: anywhere;
-				margin: 0;
-				flex: 1;
-			}
+		span {
+			color: var(--text);
+		}
 
-			span {
-				color: var(--text);
-			}
-
-			.updated {
-				opacity: 0.5;
-			}
+		.updated {
+			opacity: 0.5;
 		}
 
 		img {
+			position: absolute;
+			top: 0;
+			right: 0;
 			object-fit: cover;
-			aspect-ratio: 1.5;
+			width: 40%;
 			height: 100%;
-			width: auto;
+			mask-image: linear-gradient(to left, #aaa, black);
+	  	mask-mode: luminance;
+	  	mask-size: cover;
 		}
 	}
 }
