@@ -81,10 +81,16 @@ const FlavorText: Component = () => {
 
   const stringinator = new RandomStringinator(stringOpts);
 
+  const onClick = () => {
+    // need to put this in it's own function
+    // otherwise "this" keyword doesn't work correctly
+    stringinator.refresh()
+  }
+
   return (
     <a 
       href="javascript:void(0)" 
-      onclick={stringinator.refresh}
+      onclick={onClick}
     >{stringinator.getCurrentString()}</a>
   )
 }
