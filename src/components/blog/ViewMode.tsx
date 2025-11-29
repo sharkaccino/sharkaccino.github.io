@@ -23,7 +23,6 @@ const ViewMode: Component = () => {
           name="viewMode"
           value="grid" 
           autocomplete="off"
-          checked
         />
 			</label>
 			<label>
@@ -34,6 +33,7 @@ const ViewMode: Component = () => {
           name="viewMode" 
           value="list"
           autocomplete="off"
+          checked
         />
 			</label>
 			<label>
