@@ -2,7 +2,7 @@ import { type Component, createEffect, createSignal, For, Show } from "solid-js"
 import compare from 'string-comparison';
 import { getUTCDateComponents } from '../../util/dateTools';
 import { RandomStringinator } from "../../util/randomString";
-import { viewMode, sortMode, query, type PostData } from "../../state/blogPostListSharedData";
+import { type PostData, viewMode, sortMode, query, searchState, searchDelayActive } from "../../state/blogPostListSharedData";
 import SearchBar from "./SearchBar";
 import SortMode from "./SortMode";
 import ViewMode from "./ViewMode";
@@ -19,6 +19,8 @@ import style from "./BaseBlogBrowser.module.scss";
 // TODO: reduce grid columns on smaller displays
 
 const BlogBrowser: Component<{ postData: any }> = (props) => {
+  const [ getSearchState, setSearchState ] = searchState;
+  const [ getSearchDelayActive, setSearchDelayActive ] = searchDelayActive;
   const [ getQuery, setQuery ] = query;
   const [ getSortMode, setSortMode ] = sortMode;
   const [ getViewMode, setViewMode ] = viewMode;
@@ -142,9 +144,24 @@ const BlogBrowser: Component<{ postData: any }> = (props) => {
       class={style.browser}
     >
   		<aside class="contentBox">
-  			<SearchBar/>
-  			<SortMode/>
-  			<ViewMode/>
+  			<div class={style.hbox}>
+          <SearchBar/>
+    			<SortMode/>
+    			<ViewMode/>
+        </div>
+        <div 
+          classList={{
+            [style.active]: getSearchState() === true
+          }}
+          class={style.searchIndicator}
+        >
+          <Show when={getSearchDelayActive()}>
+            <h2>searching...</h2>
+          </Show>
+          <Show when={getSearchDelayActive() === false}>
+            <h2>search results:</h2>
+          </Show>
+        </div>
   		</aside>
 
       <main 
