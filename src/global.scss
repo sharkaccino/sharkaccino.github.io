@@ -19,10 +19,12 @@
 :root {
   --box-bg: #fafafa;
   --secondary-box-bg: #e9e9e9;
+  --secondary-box-bg-hover: #ebcdd6;
   --footer-bg: #2c1c29;
   --footer-text: #ddc0ce;
   --text: #232229;
   --trim: #922d5c;
+  --trim-hover: #a33a6b;
 
   --outer-void-gap: 3rem;
   --inner-void-gap: calc((var(--outer-void-gap) * 0.25));
@@ -36,19 +38,18 @@
   --content-width-large: 1600px;
   --content-width-medium: 1200px;
   --content-width-small: 800px;
-
-  font-family: "Hyperlegible", Tahoma, Geneva, Verdana, sans-serif;
-  color: var(--text);
 }
 
 @media screen and (prefers-color-scheme: dark) {
   :root {
     --box-bg: #232229;
     --secondary-box-bg: #15151a;
+    --secondary-box-bg-hover: #0a0a0c;
     --footer-bg: #232229;
     --footer-text: #dbd6dd;
     --text: #dbd6dd;
     --trim: #ffb581;
+    --trim-hover: #ffd2b2;
   }
 }
 
@@ -63,6 +64,26 @@ body {
   background-image: url('/wallpaper.svg');
   background-size: cover;
   background-position: 50% 50%;
+  color: var(--text);
+
+  * {
+    font-family: "Hyperlegible", Tahoma, Geneva, Verdana, sans-serif;
+
+    &:focus-visible {
+      outline: 2px solid var(--trim);
+      outline-offset: 2px;
+    }
+  }
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  body * {
+    transition: all 250ms var(--anim-timing);
+
+    &:is(:hover, :focus-visible) {
+      transition-duration: 0ms;
+    }
+  }
 }
 
 .contentBox, main, header, footer {
@@ -101,15 +122,10 @@ main {
 a {
   color: var(--trim);
   text-decoration-color: transparent;
-  transition: all 250ms var(--anim-timing);
 
-  &:hover {
+  &:is(:hover, :focus-visible) {
+    color: var(--trim-hover);
     text-decoration-color: currentColor;
-  }
-
-  &:hover,
-  &:focus-visible {
-    transition-duration: 0ms;
   }
 }
 

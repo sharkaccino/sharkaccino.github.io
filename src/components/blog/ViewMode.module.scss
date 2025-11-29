@@ -15,17 +15,25 @@
 		height: 100%;
 		aspect-ratio: 1;
 
+		&:has(input:is(:hover, :focus-visible)) {
+			background-color: var(--secondary-box-bg-hover);
+
+			&:has(input:checked) {
+				background-color: var(--trim-hover);
+			}
+		}
+
 		&:has(input:checked) {
 			background-color: var(--trim);
 			color: var(--box-bg);
 		}
-	}
 
-	input {
-		appearance: none;
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		margin: 0;
+		input {
+			appearance: none;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+		}
 	}
 }

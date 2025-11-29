@@ -6,8 +6,8 @@ import style from "./GridArticle.module.scss";
 const GridArticle: Component<{ postUrl: string, postData: PostData }> = (props) => {
   const post = props.postData;
 
-  let titleWrapper!: HTMLDivElement
-  let h2!: HTMLHeadingElement
+  let titleWrapper!: HTMLDivElement;
+  let h2!: HTMLHeadingElement;
 
   const pubDateISO = post.data.pubDate.toISOString();
   const pubDateSimple = getSimplifiedDate(post.data.pubDate);

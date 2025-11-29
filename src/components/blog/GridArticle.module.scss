@@ -14,16 +14,19 @@
   	padding: $gridPostPad;
 		box-sizing: border-box;
 
+		&:is(:hover, :focus-visible) {
+			background-color: var(--trim-hover);
+		}
+
   	.featuredImage {
   		position: absolute;
   		width: 100%;
   		height: 75%;
   		margin: calc($gridPostPad * -1);
-  		margin-bottom: 2rem;
   		background-color: var(--trim);
   		mask-image: linear-gradient(to bottom, #666, black);
   		mask-mode: luminance;
-  		mask-size: cover;;
+  		mask-size: cover;
 
   		img {
   			position: absolute;
@@ -32,7 +35,6 @@
   			object-fit: cover;
   			width: 100%;
   			height: 100%;
-  			transition: all 250ms var(--anim-timing);
   		}
 
   		img:not(.hover) {
@@ -65,7 +67,6 @@
   		h2 {
   			text-decoration-line: underline;
   			text-decoration-color: transparent;
-  			transition: all 250ms var(--anim-timing);
   			overflow-wrap: anywhere;
   			margin: 0;
   		}

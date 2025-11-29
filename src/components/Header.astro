@@ -38,6 +38,7 @@ function checkPage(name: string): string {
     background-color: var(--box-bg);
     width: 100%;
     height: 4rem;
+    gap: 0.5rem;
 
     a {
       padding: 0.5rem 1rem;
@@ -46,7 +47,8 @@ function checkPage(name: string): string {
         color: var(--box-bg);
         background-color: var(--trim);
 
-        &:hover {
+        &:is(:hover, :focus-visible) {
+          background-color: var(--trim-hover);
           text-decoration-color: var(--box-bg);
         }
       }

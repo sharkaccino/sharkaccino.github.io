@@ -1,7 +1,7 @@
 import { createSignal } from "solid-js";
 
 export class RandomStringinator {
-  allOpts
+  allOpts;
   currentIndex = 0;
   getCurrentString;
   setCurrentString;

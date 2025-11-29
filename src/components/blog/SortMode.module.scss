@@ -19,7 +19,12 @@
 			font-size: 1rem;
 			border: none;
 			appearance: none;
+			height: 100%;
 			padding-right: calc(24px + (0.5rem * 2));
+
+			&:is(:hover, :focus-visible) {
+				background-color: var(--secondary-box-bg-hover);
+			}
 		}
 
 		.arrow {

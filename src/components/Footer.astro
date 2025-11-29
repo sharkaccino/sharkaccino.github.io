@@ -12,7 +12,7 @@ const buildTime = new Date(parseInt(buildTimeRaw));
 ---
 
 <footer>
-  <a href="#">
+  <a href="#" class="jumpToStart">
     <SVGIcon src="/icons/chevron-up.svg" />
     <span>back to top</span>
     <SVGIcon src="/icons/chevron-up.svg" />
@@ -23,7 +23,9 @@ const buildTime = new Date(parseInt(buildTimeRaw));
       <div>
         <span>copyright &copy; {new Date().getFullYear()} sharkaccino</span>
         <span>all rights reserved</span>
-        <span class="flavorText"><FlavorText client:load /></span>
+        <span class="flavorText">
+          <FlavorText client:load />
+        </span>
       </div>
     </div>
     <div class="siteMetaBlock">
@@ -61,7 +63,7 @@ const buildTime = new Date(parseInt(buildTimeRaw));
     height: var(--footer-height);
     max-height: var(--footer-height);
 
-    > a {
+    > .jumpToStart {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -69,6 +71,10 @@ const buildTime = new Date(parseInt(buildTimeRaw));
       background-color: var(--trim);
       color: var(--box-bg);
       padding: 0.75rem 1rem;
+
+      &:is(:hover, :focus-visible) {
+        background-color: var(--trim-hover);
+      }
     }
 
     .orientationFlipper {

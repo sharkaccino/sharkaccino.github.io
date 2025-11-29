@@ -9,8 +9,17 @@
 		color: var(--text);
 		padding: 0.5rem 0.75rem;
 		padding-right: calc(24px + (0.5rem) * 2);
+		height: 100%;
 		font-size: 1rem;
 		border: none;
+
+		&:is(:hover, :focus-visible) {
+			background-color: var(--secondary-box-bg-hover);
+
+			&:has(input:checked) {
+				background-color: var(--trim-hover);
+			}
+		}
 	}
 
 	.searchIcon {
