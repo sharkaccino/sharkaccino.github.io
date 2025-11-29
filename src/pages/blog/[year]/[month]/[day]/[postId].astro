@@ -3,7 +3,7 @@ import { type GetStaticPaths } from "astro";
 import { getCollection } from 'astro:content';
 import { Show } from "solid-js";
 import Base from '../../../../../Base.astro';
-import BlogPost from "../../../../../components/blog/BlogPost.astro";
+import BlogPost from "../../../../../components/blog/BlogPost";
 import { getUTCDateComponents } from '../../../../../util/dateTools';
 import SVGIcon from "../../../../../components/SVGIcon";
 
@@ -72,8 +72,8 @@ const { post, postIndex, totalPosts, prevURL, nextURL } = Astro.props;
 
 <Base title={post.data.title}>
 	<div class="small">
-		<main class="contentBox">
-			<BlogPost post={post} />
+		<main>
+			<BlogPost postData={post} />
 		</main>
 		<nav>
 			<Show when={prevURL != null}>

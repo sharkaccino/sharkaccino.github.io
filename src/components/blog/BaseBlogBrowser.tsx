@@ -51,10 +51,13 @@ const BlogBrowser: Component<{ postData: any }> = (props) => {
     if (query.length > 0) {
       const acquireTargets = (post: PostData) => {
         const output = [
-          post.body, 
           post.data.title,
           post.data.pubDate.toUTCString()
         ];
+
+        if (post.body) {
+          output.push(post.body);
+        }
 
         if (post.data.editDate) {
           output.push(post.data.editDate.toUTCString());

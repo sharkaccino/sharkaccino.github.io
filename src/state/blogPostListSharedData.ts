@@ -2,7 +2,7 @@ import { createSignal } from "solid-js";
 
 export type PostData = {
   id: string;
-  body: string;
+  body?: string;
   collection: `blog`;
   data: {
     title: string;
