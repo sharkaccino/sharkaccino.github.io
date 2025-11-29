@@ -29,6 +29,28 @@ const SortMode: Component = () => {
 
   const handleInput = (ev: InputEvent) => {
     if (ev.target instanceof HTMLInputElement == false) return;
+
+    // tag helper
+    // automatically converts hashtags to the proper keyword format
+    // only applies when there is no other text in the field
+    if (ev.data != null) {
+      if (ev.data.startsWith(`#`)) {
+        if (ev.data.length === ev.target.value.length) {
+          // this is the only thing in the entire input
+          if (ev.data.length === 1) {
+            // just the hash character by itself
+            const newVal = `tag:""`;
+            ev.target.value = newVal
+            ev.target.selectionStart = newVal.length-1;
+            ev.target.selectionEnd = newVal.length-1;
+          } else {
+            // pasted hashtags
+            ev.target.value = `tag:"${ev.data.substring(1)}"`
+          }
+        }
+      }
+    }
+
     const value = ev.target.value.trim();
     // console.debug(value);
 
