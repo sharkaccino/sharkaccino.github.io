@@ -1,5 +1,5 @@
 import { type Component } from "solid-js";
-import { query, searchState, searchDelayActive } from "../../state/blogPostListSharedData";
+import { query, searchState, searchDelayActive } from "../../state/blogBrowserStateManager";
 import SVGIcon from "../SVGIcon";
 import style from "./SearchBar.module.scss";
 

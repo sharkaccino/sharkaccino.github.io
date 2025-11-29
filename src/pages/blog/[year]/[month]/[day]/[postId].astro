@@ -6,6 +6,7 @@ import Base from '../../../../../Base.astro';
 import BlogPost from "../../../../../components/blog/BlogPost";
 import { getUTCDateComponents } from '../../../../../util/dateTools';
 import SVGIcon from "../../../../../components/SVGIcon";
+import { getPostUrl } from "../../../../../util/blogPostTools";
 
 // TODO: custom embed/opengraph content
 
@@ -21,6 +22,7 @@ export const getStaticPaths = (async () => {
 	for (let i = 0; i < posts.length; i++) {
 		const post = posts[i];
 		const pubDate: Date = post.data.pubDate;
+		const dc = getUTCDateComponents(pubDate);
 
 		let prevURL = null;
 		let nextURL = null;
@@ -29,22 +31,12 @@ export const getStaticPaths = (async () => {
 		const nextPost = posts[i+1];
 
 		if (prevPost != null) {
-			const prevPubDate = prevPost.data.pubDate;
-			const prevDc = getUTCDateComponents(prevPubDate);
-
-			const datepath = `${prevDc.year}/${prevDc.month}/${prevDc.day}`;
-			prevURL = `/blog/${datepath}/${prevPubDate.getTime()}`;
+			prevURL = getPostUrl(prevPost);
 		}
 
 		if (nextPost != null) {
-			const nextPubDate = nextPost.data.pubDate;
-			const nextDc = getUTCDateComponents(nextPubDate);
-
-			const datepath = `${nextDc.year}/${nextDc.month}/${nextDc.day}`;
-			nextURL = `/blog/${datepath}/${nextPubDate.getTime()}`;
+			nextURL = getPostUrl(nextPost);
 		}
-
-		const dc = getUTCDateComponents(pubDate);
 
 		output.push({ 
 			params: {
@@ -83,7 +75,6 @@ const { post, postIndex, totalPosts, prevURL, nextURL } = Astro.props;
 					aria-label="Previous Post"
 				>
 					<SVGIcon src="/icons/chevron-left.svg" />
-					<!-- &larr; -->
 				</a>
 			</Show>
 			
@@ -96,7 +87,6 @@ const { post, postIndex, totalPosts, prevURL, nextURL } = Astro.props;
 					aria-label="Next Post"
 				>
 					<SVGIcon src="/icons/chevron-right.svg" />
-				  <!-- &rarr; -->
 				</a>
 			</Show>
 		</nav>

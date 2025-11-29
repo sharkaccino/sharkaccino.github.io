@@ -1,20 +1,5 @@
 import { createSignal } from "solid-js";
 
-export type PostData = {
-  id: string;
-  body?: string;
-  collection: `blog`;
-  data: {
-    title: string;
-    imageUrl?: string;
-    pubDate: Date;
-    editDate?: Date;
-    tags?: string[];
-  };
-  rendered?: any;
-  filepath?: string;
-}
-
 export const searchState = createSignal<boolean>(false);
 export const searchDelayActive = createSignal<boolean>(false);
 export const query = createSignal<string>(``);

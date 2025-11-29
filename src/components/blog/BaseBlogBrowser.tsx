@@ -1,16 +1,15 @@
 import { type Component, createEffect, createSignal, For, Show } from "solid-js";
 import compare from 'string-comparison';
-import { getUTCDateComponents } from '../../util/dateTools';
 import { RandomStringinator } from "../../util/randomString";
-import { type PostData, viewMode, sortMode, query, searchState, searchDelayActive } from "../../state/blogPostListSharedData";
+import { type PostData } from "../../util/blogPostTools";
+import { viewMode, sortMode, query, searchState, searchDelayActive } from "../../state/blogBrowserStateManager";
 import SearchBar from "./SearchBar";
 import SortMode from "./SortMode";
 import ViewMode from "./ViewMode";
 import GridArticle from "./GridArticle";
 import ListArticle from "./ListArticle";
 import style from "./BaseBlogBrowser.module.scss";
-
-// TODO: list and dashboard view modes
+import BlogPost from "./BlogPost";
 
 // TODO: mobile support
 
@@ -176,27 +175,17 @@ const BlogBrowser: Component<{ postData: any }> = (props) => {
       >
         <For each={getPosts()}>
           {(post) => {
-            const dc = getUTCDateComponents(post.data.pubDate);
-  				  const datepath = `${dc.year}/${dc.month}/${dc.day}`;
-            const postUrl = `/blog/${datepath}/${post.data.pubDate.getTime()}`;
-
             return (
               <>
                 <Show when={getViewMode() == `grid`}>
-                  <GridArticle 
-                    postUrl={postUrl}
-                    postData={post}
-                  />
+                  <GridArticle postData={post}/>
                 </Show>
                 <Show when={getViewMode() == `list`}>
-                  <ListArticle 
-                    postUrl={postUrl}
-                    postData={post}
-                  />
+                  <ListArticle postData={post}/>
                 </Show>
-                {/* <Show when={getViewMode() == `dash`}>
-                  TODO
-                </Show> */}
+                <Show when={getViewMode() == `dash`}>
+                  <BlogPost postData={post}/>
+                </Show>
               </>
             )
           }}

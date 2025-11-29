@@ -1,5 +1,5 @@
 import { type Component, type JSX, onMount, Show } from "solid-js";
-import { sortMode } from "../../state/blogPostListSharedData";
+import { sortMode } from "../../state/blogBrowserStateManager";
 import SVGIcon from "../SVGIcon";
 import style from "./SortMode.module.scss";
 

@@ -1,5 +1,5 @@
 import { type Component } from "solid-js";
-import { viewMode } from "../../state/blogPostListSharedData";
+import { viewMode } from "../../state/blogBrowserStateManager";
 import SVGIcon from "../SVGIcon";
 import style from "./ViewMode.module.scss";
 

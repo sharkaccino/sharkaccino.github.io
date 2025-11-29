@@ -1,10 +1,11 @@
 import { type Component, onMount, Show } from "solid-js";
 import { getSimplifiedDate } from "../../util/dateTools";
-import { type PostData } from "../../state/blogPostListSharedData";
+import { type PostData, getPostUrl } from "../../util/blogPostTools";
 import style from "./GridArticle.module.scss";
 
-const GridArticle: Component<{ postUrl: string, postData: PostData }> = (props) => {
+const GridArticle: Component<{ postData: PostData }> = (props) => {
   const post = props.postData;
+  const postUrl = getPostUrl(post);
 
   let titleWrapper!: HTMLDivElement;
   let h2!: HTMLHeadingElement;
@@ -41,7 +42,7 @@ const GridArticle: Component<{ postUrl: string, postData: PostData }> = (props) 
   });
 
   return (
-    <a class={style.gridArticle} href={props.postUrl} title={post.data.title}>
+    <a class={style.gridArticle} href={postUrl} title={post.data.title}>
       <article>
         <Show when={post.data.imageUrl != null}>
           <div class={style.featuredImage}>

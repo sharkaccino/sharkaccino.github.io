@@ -1,12 +1,14 @@
 import { type Component, For, Show } from "solid-js";
-import { type PostData } from "../../state/blogPostListSharedData";
 import { getSimplifiedDate } from "../../util/dateTools";
+import { getPostUrl, type PostData } from "../../util/blogPostTools";
 import style from "./BlogPost.module.scss";
 
 // TODO: fix image height on smaller displays
 
 const BlogPost: Component<{ postData: PostData }> = (props) => {
   const post = props.postData;
+
+  const postUrl = getPostUrl(post);
 
   const pubDateISO = post.data.pubDate.toISOString();
   const pubDateSimple = getSimplifiedDate(post.data.pubDate);
@@ -19,8 +21,6 @@ const BlogPost: Component<{ postData: PostData }> = (props) => {
     editDateSimple = getSimplifiedDate(post.data.editDate);
   }
 
-  console.debug(post.rendered);
-
   return (
     <div class={`${style.post} contentBox`}>
       <Show when={post.data.imageUrl != null}>
@@ -28,9 +28,13 @@ const BlogPost: Component<{ postData: PostData }> = (props) => {
       		<img src={post.data.imageUrl} />
       	</div>
       </Show>
-      <h1>{post.data.title}</h1>
+      <a href={postUrl}>
+        <h1>{post.data.title}</h1>
+      </a>
       <div class={style.timestampBlock}>
-      	<span><time datetime={pubDateISO}>{pubDateSimple}</time></span>
+        <a href={postUrl}>
+          <time datetime={pubDateISO}>{pubDateSimple}</time>
+        </a>
       	<Show when={post.data.editDate != null}>
       		<span class={style.updated}>
       			updated: <time datetime={editDateISO}>{editDateSimple}</time>

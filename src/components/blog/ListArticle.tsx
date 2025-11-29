@@ -1,10 +1,11 @@
 import { type Component, Show } from "solid-js";
 import { getSimplifiedDate } from "../../util/dateTools";
-import { type PostData } from "../../state/blogPostListSharedData";
+import { type PostData, getPostUrl } from "../../util/blogPostTools";
 import style from "./ListArticle.module.scss";
 
-const ListArticle: Component<{ postUrl: string, postData: PostData }> = (props) => {
+const ListArticle: Component<{ postData: PostData }> = (props) => {
   const post = props.postData;
+  const postUrl = getPostUrl(post);
 
   const pubDateISO = post.data.pubDate.toISOString();
   const pubDateSimple = getSimplifiedDate(post.data.pubDate);
@@ -18,7 +19,7 @@ const ListArticle: Component<{ postUrl: string, postData: PostData }> = (props) 
   }
 
   return (
-    <a class={`${style.listArticle} contentBox`} href={props.postUrl} title={post.data.title}>
+    <a class={`${style.listArticle} contentBox`} href={postUrl} title={post.data.title}>
       <article>
         <div>
           <h2>{post.data.title}</h2>
