@@ -7,6 +7,7 @@ import SearchBar from "./SearchBar";
 import SortMode from "./SortMode";
 import ViewMode from "./ViewMode";
 import GridArticle from "./GridArticle";
+import ListArticle from "./ListArticle";
 import style from "./BaseBlogBrowser.module.scss";
 
 // TODO: list and dashboard view modes
@@ -14,6 +15,8 @@ import style from "./BaseBlogBrowser.module.scss";
 // TODO: mobile support
 
 // TODO: move search/filter algorithm to it's own file
+
+// TODO: reduce grid columns on smaller displays
 
 const BlogBrowser: Component<{ postData: any }> = (props) => {
   const [ getQuery, setQuery ] = query;
@@ -146,31 +149,55 @@ const BlogBrowser: Component<{ postData: any }> = (props) => {
 
       <main 
         classList={{ 
-          [style.gridView]: getViewMode() == `grid`,
+          [`${style.gridView} contentBox`]: getViewMode() == `grid`,
           [style.listView]: getViewMode() == `list`,
           [style.dashView]: getViewMode() == `dash`
         }}
-        class="contentBox"
       >
-        <Show when={getViewMode() == `grid`}>
-          <For each={getPosts()}>
-            {(post) => {
-              const dc = getUTCDateComponents(post.data.pubDate);
-    				  const datepath = `${dc.year}/${dc.month}/${dc.day}`;
-              const postUrl = `/blog/${datepath}/${post.data.pubDate.getTime()}`;
+        <For each={getPosts()}>
+          {(post) => {
+            const dc = getUTCDateComponents(post.data.pubDate);
+  				  const datepath = `${dc.year}/${dc.month}/${dc.day}`;
+            const postUrl = `/blog/${datepath}/${post.data.pubDate.getTime()}`;
 
-              return (
-                <GridArticle 
-                  postUrl={postUrl}
-                  postData={post}
-                />
-              )
-            }}
-          </For>
-        </Show>
-        <Show when={getPosts().length === 0}>
-          <h2>{stringinator.getCurrentString()}</h2>
-        </Show>
+            return (
+              <>
+                <Show when={getViewMode() == `grid`}>
+                  <GridArticle 
+                    postUrl={postUrl}
+                    postData={post}
+                  />
+                </Show>
+                <Show when={getViewMode() == `list`}>
+                  <ListArticle 
+                    postUrl={postUrl}
+                    postData={post}
+                  />
+                </Show>
+                {/* <Show when={getViewMode() == `dash`}>
+                  TODO
+                </Show> */}
+              </>
+            )
+          }}
+        </For>
+        <div 
+          classList={{
+            "contentBox": getViewMode() !== `grid`
+          }}
+          class={style.listEndCap}
+        >
+          <Show when={getPosts().length > 0}>
+            <h2 class={style.endOfPosts}>
+              that's all, folks!
+            </h2>
+          </Show>
+          <Show when={getPosts().length == 0}>
+            <h2 class={style.noResults}>
+              {stringinator.getCurrentString()}
+            </h2>
+          </Show>
+        </div>
       </main>
   	</div>
   )

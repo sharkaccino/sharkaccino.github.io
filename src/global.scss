@@ -77,7 +77,7 @@ body {
 }
 
 @media screen and (prefers-reduced-motion: no-preference) {
-  body * {
+  body *:not(header, main, footer) {
     transition: all 250ms var(--anim-timing);
 
     &:is(:hover, :focus-visible) {
@@ -86,7 +86,7 @@ body {
   }
 }
 
-.contentBox, main, header, footer {
+.contentBox, header, footer {
   position: relative;
   box-shadow: 0.6rem 0.6rem 16px #00000099;
 }
@@ -113,9 +113,6 @@ body {
 }
 
 main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: var(--edge-pad);
 }
 

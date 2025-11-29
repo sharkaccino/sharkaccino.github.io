@@ -3,6 +3,7 @@
 	flex-direction: column;
 	align-items: flex-start;
 	gap: var(--inner-void-gap);
+	flex: 1;
 
 	aside {
 		display: flex;
@@ -11,34 +12,55 @@
 		padding: calc(var(--edge-pad) / 2);
 	}
 
+	.gridView, .listView, .dashView {
+		position: relative;
+		display: flex;
+		align-items: flex-start;
+		gap: var(--inner-void-gap);
+		width: 100%;
+	}
+
 	.gridView {
 		$columns: 5;
 
-		position: relative;
-		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		gap: var(--inner-void-gap);
-		width: 100%;
 		padding: calc(var(--edge-pad) / 2);
 
-		&:before, > * {
+		> *:not(.listEndCap) {
 			flex-basis: calc(((100% - (var(--inner-void-gap) * ($columns - 1))) / $columns));
 		}
 
-		&:before {
-			content: "";
-			display: block;
-			aspect-ratio: 1.5;
-			height: auto;
-			margin-right: calc((((100% - (var(--inner-void-gap) * ($columns - 1))) / $columns) + var(--inner-void-gap)) * -1);
+		.listEndCap {
+			margin: calc((var(--edge-pad) / 2) * -1) 0;
 		}
 
-		> h2 {
-			position: absolute;
-			left: 50%;
-			transform: translateX(-50%);
+		* ~ .listEndCap {
+			margin-top: calc((var(--edge-pad) / 4) * -1);
+		}
+	}
+
+	.listView {
+		flex-direction: column;
+		padding: 0;
+	}
+
+	.dashView {
+		flex-direction: column;
+		padding: 0;
+	}
+
+	.listEndCap {
+		width: 100%;
+		height: 10rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: none;
+
+		h2 {
 			opacity: 0.5;
+			margin: 0;
 		}
 	}
 }
