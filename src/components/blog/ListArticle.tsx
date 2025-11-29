@@ -31,7 +31,7 @@ const ListArticle: Component<{ postData: PostData }> = (props) => {
           </Show>
         </div>
         <Show when={post.data.imageUrl != null}>
-          <img src={post.data.imageUrl} class={style.featuredImage} />
+          <img src={post.data.imageUrl} />
         </Show>
       </article>
     </a>
