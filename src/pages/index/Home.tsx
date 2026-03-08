@@ -1,12 +1,9 @@
  
-import { For, type Component, onMount, createSignal, useContext } from 'solid-js';
+import { For, type Component, onMount } from 'solid-js';
 import { IconCheck } from '@tabler/icons-solidjs';
-import { GalleryEntryData, LightBoxContext } from '../../components/Lightbox';
 import metadata from './pageMetadata.json';
 
 import styles from './Home.module.css';
-
-const fetchAvatars = fetch(`/metadata/avatar.json`);
 
 const Home: Component = () => {
 
@@ -15,6 +12,11 @@ const Home: Component = () => {
       title: `bluesky`,
       url: `https://bsky.app/profile/sharkaccino.com`,
       style: styles.bluesky
+    },
+    {
+      title: `matrix`,
+      text: `@sharkaccino:matrix.org`,
+      style: styles.matrix
     },
     {
       title: `github`,
@@ -40,7 +42,7 @@ const Home: Component = () => {
       title: `ko-fi`,
       url: `https://ko-fi.com/sharkaccino`,
       style: styles.kofi
-    },
+    }
   ]
 
   onMount(() => {

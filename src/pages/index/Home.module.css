@@ -61,29 +61,25 @@
 @keyframes copyNotification {
   0% {
     --copy-opacity: 1;
-    --copy-scale: 0.75;
     --label-opacity: 0;
   }
-  5% {
+  60% {
     --copy-opacity: 1;
-    --copy-scale: 1;
     --label-opacity: 0;
   }
-  75% {
-    --copy-opacity: 1;
-    --copy-scale: 1;
+  80% {
+    --copy-opacity: 0;
     --label-opacity: 0;
   }
   100% {
     --copy-opacity: 0;
-    --copy-scale: 1;
     --label-opacity: 1;
   }
 }
 
 .linklist {
   display: grid;
-  width: 16rem;
+  min-width: 16rem;
   grid-template-columns: 1fr;
 
   > a {
@@ -125,7 +121,6 @@
 
     > div {
       --copy-opacity: 0;
-      --copy-scale: 1;
       --label-opacity: 1;
       position: relative;
 
@@ -146,7 +141,7 @@
         align-items: center;
         top: 0;
         left: 50%;
-        transform: translateX(-50%) scale(var(--copy-scale));
+        transform: translateX(-50%);
         height: 100%;
         color: var(--text);
         font-weight: normal;
@@ -214,6 +209,12 @@
 
 .linklist .kofi {
   --social-icon-url: url("/assets/social_icons/kofi.svg");
+}
+
+/* discord */
+
+.linklist .matrix {
+  --social-icon-url: url("/assets/social_icons/matrix.svg");
 }
 
 /* 
